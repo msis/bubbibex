@@ -47,7 +47,7 @@ void simulation::simuMonteCarlo(repere* R,int NB)
 void simulation::drawtraj(repere* R){
     IntervalVector cur(4);
     IntervalVector next(4);
-    for(int i;i<dataf.size();i++){
+    for(int i=0;i<dataf.size()-1;i++){
         cur=dataf[i];
         next=dataf[i+1];
         R->DrawLine(cur[0].mid(),cur[1].mid(),next[0].mid(),next[1].mid(),QPen(Qt::black));
