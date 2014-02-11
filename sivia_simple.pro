@@ -12,11 +12,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
  mainwindow.cpp \
  sivia.cpp \
-    repere.cpp
+    repere.cpp \
+    drawPaving.cpp
 
 HEADERS += mainwindow.h \
  sivia.h \
-    repere.h
+    repere.h \
+    drawPaving.h
 
 FORMS += mainwindow.ui
 
