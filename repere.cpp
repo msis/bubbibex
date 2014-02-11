@@ -32,6 +32,13 @@ void repere::Clean()
     Scene->clear();
 }
 //--------------------------------------------------------------------------------------------------
+void repere::Center(double x, double y){
+    double Rx = (xmax-xmin)*0.5;
+    double Ry = (ymax-ymin)*0.5;
+    xmin = x-Rx; ymin = y-Ry;
+    xmax = x+Rx; ymax = y+Ry;
+}
+//--------------------------------------------------------------------------------------------------
 void repere::DrawBox(double xmin,double xmax,double ymin,double ymax, QPen pen1, QBrush brush1)
 {       QPolygonF box1;
         box1 << QPointF(xToPix(xmin),yToPix(ymin))<< QPointF(xToPix(xmax),yToPix(ymin))

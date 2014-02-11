@@ -87,8 +87,9 @@ void MainWindow::on_tmaxField_valueChanged(int value)
 {
     ui->timeBar->setMaximum(ui->tmaxField->value()-1);
     R->Clean();
-    Simu->simuMonteCarlo(R, ui->timeBar->maximum());
+    Simu->simuMonteCarlo(R, ui->timeBar->maximum()+1);
     Simu->drawtraj(R);
+    R->Center(0,0);
 
 }
 

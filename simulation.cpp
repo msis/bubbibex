@@ -11,7 +11,7 @@ void simulation::simuMonteCarlo(repere* R,int NB)
 {
     dataf.clear();datag.clear();
     //Genere les positions x1,x2 aleatoirement (methode de Monte Carlo)
-    double dt = 0.01;
+    double dt = 0.001;
     double t = 0;
     double x1, x2, x3;
     x1 = rand()% 20 - 10;
@@ -76,6 +76,7 @@ void simulation::drawrob(repere* R,double t){
     cx = currentg[0].mid();
     cy = currentg[1].mid();
     theta = currentf[2].mid();
+    R->Center(x,y);
     R->DrawRobot(x,y,theta);
     R->DrawEllipse(cx,cy,Ra,QPen(Qt::green),QBrush(Qt::NoBrush));
 
