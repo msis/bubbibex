@@ -23,6 +23,18 @@ void MainWindow::Init() {
 
     R = new repere(this,ui->graphicsView,xmin,xmax,ymin,ymax);
     R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
+
+    //Scenario
+    //TO DO
+
+    //Simulation
+    S = new simulation(/*f*/,/*g*/); //TO DO
+
+    //Intervalles
+
+
+    //Pavage
+
 }
 
 MainWindow::~MainWindow() {
@@ -86,7 +98,7 @@ void MainWindow::drawAll(){
 
     //Drawing Simulation if box checked
     if(ui->buttonSimu->isChecked()){
-        //TO DO
+        S->drawrob(R, t);
     }
 
     //Drawing Field if box checked

@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QMainWindow>
 #include "repere.h"
+#include "simulation.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +23,7 @@ public:
 private:
     Ui::MainWindow *ui;
     repere* R;
+    simulation* S;
 
 protected:
     void resizeEvent(QResizeEvent*);

@@ -12,11 +12,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
  mainwindow.cpp \
  sivia.cpp \
-    repere.cpp
+ repere.cpp \
+    simulation.cpp
 
 HEADERS += mainwindow.h \
  sivia.h \
-    repere.h
+ repere.h \
+ simulation.h
 
 FORMS += mainwindow.ui
 
