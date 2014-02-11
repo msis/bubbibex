@@ -7,40 +7,68 @@ simulation::simulation(Function& f, Function& g): fonct_f(f), fonct_g(g)
 }
 
 
-void simulation::simuMonteCarlo(repere& R)
+void simulation::simuMonteCarlo(repere* R,int NB)
 {
-    double x1, x2;
-    cout<<fonct_f;
-    x1 = rand()% 20 - 10 ;
+    dataf.empty();datag.empty();
+    //Genere les positions x1,x2 aleatoirement (methode de Monte Carlo)
+    double dt = 0.01;
+    double t = 0;
+    double x1, x2, x3;
+    x1 = rand()% 20 - 10;
     x2 = rand()% 20 - 10;
+    x3 = rand()%10 - 5;
 
-    IntervalVector box(3);
-    box[0] = Interval(x1);
-    box[1] = Interval(x2);
-    box[2] = Interval(0.0);
+    //Box pour f
+    IntervalVector boxf(4);
+    boxf[0] = Interval(x1);
+    boxf[1] = Interval(x2);
+    boxf[2] = Interval(x3);
+    boxf[3] = Interval(t);
 
-    IntervalVector boxOut(3);
-    boxOut[0] = Interval(x1);
-    boxOut[1] = Interval(x2);
-    boxOut[2] = Interval(0.0);
+    //Box pour g
+    IntervalVector boxg(4);
+    boxg[0] = Interval(x1);
+    boxg[1] = Interval(x2);
+    boxg[2] = Interval(x3);
+    boxg[3] = Interval(t);
 
-    for (double i=0 ; i<1000 ;i++){
-        box[2] = Interval(i);
-        data.push_back(boxOut);
-        Interval xPrec = boxOut[0];
-        Interval yPrec = boxOut[1];
-        boxOut = fonct_f.eval_vector(box);
-        R.DrawLine(xPrec.mid(),yPrec.mid(),boxOut[0].mid(),boxOut[1].mid(),QPen(Qt::black));
+
+    for (double i=0 ; i<NB ;i++){
+        dataf.push_back(boxf);
+        datag.push_back(boxg);
+        boxf = boxf + dt*fonct_f.eval_vector(boxf);
+        boxg = boxg + dt*fonct_g.eval_vector(boxg);
+        boxf[3] = Interval(t+dt);
+        boxg[3] = Interval(t+dt);
     }
 
 }
 
-void simulation::drawrob(repere& R,double t){
-    IntervalVector current(3);
-    double x,y;
+void simulation::drawtraj(repere* R){
+    IntervalVector cur(4);
+    IntervalVector next(4);
+    for(int i;i<dataf.size();i++){
+        cur=dataf[i];
+        next=dataf[i+1];
+        R->DrawLine(cur[0].mid(),cur[1].mid(),next[0].mid(),next[1].mid(),QPen(Qt::black));
+
+    }
+
+}
+
+void simulation::drawrob(repere* R,double t){
+    IntervalVector currentf(4);
+    IntervalVector currentg(4);
+    double x,y,theta,cx,cy;
+    double Ra = 1;//Radius of the target
     t_trackbar = t;
-    current=data[int(t_trackbar/dt)];
-    y = current[0].mid();
-    x = current[1].mid();
-    R.DrawRobot(x,y,0);
+    currentf=dataf[int(t_trackbar/dt)];
+    currentg=datag[int(t_trackbar/dt)];
+    x = currentf[0].mid();
+    y = currentf[1].mid();
+    cx = currentg[0].mid();
+    cy = currentg[1].mid();
+    theta = currentf[2].mid();
+    R->DrawRobot(x,y,theta);
+    R->DrawEllipse(cx,cy,Ra,QPen(Qt::black),QBrush(Qt::NoBrush));
 }
