@@ -2,7 +2,7 @@
 
 simulation::simulation(Function& f, Function& g): fonct_f(f), fonct_g(g)
 {
-     t_trackbar = 0.0;
+    t_trackbar = 0.0;
     dt = 1.0;
 }
 

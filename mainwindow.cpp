@@ -29,9 +29,13 @@ void MainWindow::Init() {
     ui->textf->setPlainText(Sce->initf());
     ui->textg->setPlainText(Sce->initg());
     ui->textc->setPlainText(Sce->initc());
+    Sce->save(Sce->initf(), Sce->initg(), Sce->initc());
 
     //Simulation
-    //Simu = new simulation(/*f*/,/*g*/); //TO DO
+    Function f("f.txt");
+    Function g("g.txt");
+    Simu = new simulation(f,g);
+    Simu->simuMonteCarlo(R);
 
     //Intervalles
 

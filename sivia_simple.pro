@@ -14,15 +14,13 @@ SOURCES += main.cpp\
  sivia.cpp \
  repere.cpp \
     simulation.cpp \
-    scenar.cpp \
-    drawf.cpp
+    scenar.cpp
 
 HEADERS += mainwindow.h \
  sivia.h \
  repere.h \
  simulation.h \
-    scenar.h \
-    drawf.h
+    scenar.h
 
 FORMS += mainwindow.ui
 
