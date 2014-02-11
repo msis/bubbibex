@@ -1,20 +1,47 @@
 #include "drawPaving.h"
-#include "ibex.h"
-using namespace std;
-using namespace ibex;
 
+/* Cette fonction recoit le temps t de la trackbar, le repere cree dans la fenetre principale,
+un vecteur d'intervalles (et non pas une liste de vecteurs d'intervalles), et les couleurs.
+Elle sera ensuite utilisée pour dessiner les pavages incertains et out.
+*/
 
-
-
-drawPaving::drawPaving(QObject *parent) :
-    QObject(parent)
+void drawPaving::update(double& t,repere& R,IntervalVector& X,QPen pencolor,QBrush brushcolor)
 {
+
+    if (X[3].contains(t))
+    {
+
+        R.DrawBox(X[0].lb(),X[0].ub(),X[1].lb(),X[1].ub(),QPen(pencolor),QBrush(brushcolor));
+
+    }
+
 }
 
-void drawPaving::update(repere& R,IntervalVector& Xout,IntervalVector& Xprob):{
+
+
+drawPaving::drawPaving(QList<IntervalVector>  Sout,QList<IntervalVector>  Sprob,double& t,repere& R,QObject *parent):
+     QObject(parent)
+{
     R.Clean();
-    if (Xout[1].contains(t))
-        R.DrawBox(Xout[0][0].lb(),Xout[0][0].ub(),Xout[0][1].lb(),Xout[0][1].ub(),QPen(Qt::blue),QBrush(Qt::NoBrush));
-    R.DrawBox(Xprob[0][0].lb(),Xprob[0][0].ub(),Xprob[0][1].lb(),Xprob[0][1].ub(),QPen(Qt::Yellow),QBrush(Qt::NoBrush));
+
+    // on parcours la liste des interval vecteur out et on les represente
+
+    for(int i = 0; i<Sout.size(); i++)
+    {
+        IntervalVector Xout = Sout.at(i);
+        update(t,R,Xout,QPen(Qt::white),QBrush(Qt::white));
+    }
+
+    // // on parcours la liste des interval vecteur probables et on les represente
+
+    for(int i = 0; i<Sprob.size();i++)
+    {
+
+        IntervalVector Xprob= Sprob.at(i);
+        update(t,R,Xprob,QPen(Qt::gray),QBrush(Qt::gray));
+    }
+
+
 
 }
+
