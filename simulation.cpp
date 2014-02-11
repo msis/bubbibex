@@ -26,20 +26,23 @@ void simulation::simuMonteCarlo(repere* R,int NB)
     boxf[3] = Interval(t);
 
     //Box pour g
-    IntervalVector boxg(4);
-    boxg[0] = Interval(x1);
-    boxg[1] = Interval(x2);
-    boxg[2] = Interval(x3);
-    boxg[3] = Interval(t);
+    IntervalVector boxg(2);
+//    boxg[0] = Interval(x1);
+//    boxg[1] = Interval(x2);
+//    boxg[2] = Interval(x3);
+//    boxg[3] = Interval(t);
+
+
 
 
     for (double i=0 ; i<NB ;i++){
+        IntervalVector bg(1,boxf[3]);
         dataf.push_back(boxf);
         datag.push_back(boxg);
         boxf = boxf + dt*fonct_f.eval_vector(boxf);
-        boxg = fonct_g.eval_vector(boxf);
-        boxf[3] = Interval(t+dt);
-        boxg[3] = Interval(t+dt);
+        boxg = fonct_g.eval_vector(bg);
+        t += dt;
+        boxf[3] = Interval(t);
     }
 
 }

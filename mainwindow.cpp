@@ -16,10 +16,10 @@ void MainWindow::Init() {
     this->show();
 
     // Build the frame
-    double xmin=-20;
-    double xmax=20;
-    double ymin=-20;
-    double ymax=20;
+    double xmin=-50;
+    double xmax=50;
+    double ymin=-50;
+    double ymax=50;
 
     R = new repere(this,ui->graphicsView,xmin,xmax,ymin,ymax);
     R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
@@ -33,7 +33,9 @@ void MainWindow::Init() {
 
     //Simulation
     Function f("f.txt");
-    Function g("g.txt");
+//    Function g("g.txt");
+    Variable x;
+    Function g(x,Return(7*x,sin(0.1*x)));
     Simu = new simulation(f,g);
     Simu->simuMonteCarlo(R, 1000);
 
@@ -53,10 +55,10 @@ void MainWindow::resizeEvent(QResizeEvent* event){
     QMainWindow::resizeEvent(event);
 
     // Build the frame
-    double xmin=-20;
-    double xmax=20;
-    double ymin=-20;
-    double ymax=20;
+    double xmin=-50;
+    double xmax=50;
+    double ymin=-50;
+    double ymax=50;
 
     if(R!=NULL && this->isVisible()){
         R->Scene->setSceneRect(0,0,ui->graphicsView->geometry().width()-3,ui->graphicsView->geometry().height()-3); 
