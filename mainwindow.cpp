@@ -4,33 +4,64 @@
 #include "ibex.h"
 #include "sivia.h"
 
-double epsilon;
+
 
 MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    Init();
 }
 
 void MainWindow::Init() {
-    epsilon=ui->EpsilonSpinBox->value();
+    ui->timeBar->setMaximum(ui->tmaxField->value());
 }
 
 MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::on_ButtonStart_clicked()
+//Table d'evenements
+void MainWindow::on_buttonField_stateChanged(int state)
 {
+    drawAll();
+}
 
-    Init();
+void MainWindow::on_buttonPaving_stateChanged(int state)
+{
+    drawAll();
+}
 
-    // Build the frame
-    double xmin=-10;
-    double xmax=10;
-    double ymin=-10;
-    double ymax=10;
+void MainWindow::on_buttonSimu_stateChanged(int state)
+{
+    drawAll();
+}
 
-    repere* R = new repere(this,ui->graphicsView,xmin,xmax,ymin,ymax);
+void MainWindow::on_tmaxField_valueChanged(int value)
+{
+    ui->timeBar->setMaximum(ui->tmaxField->value());
+}
 
-    // run SIVIA
-    Sivia sivia(*R,epsilon);
+void MainWindow::on_timeBar_valueChanged(int position)
+{
+    drawAll();
+}
+
+//Fonction d'affichage
+void MainWindow::drawAll(){
+    double t = ui->timeBar->value();
+    ui->curTime->setText(QString::number(t));
+
+    //Drawing Paving if box checked
+    if(ui->buttonPaving->isChecked()){
+        //TO DO
+    }
+
+    //Drawing Simulation if box checked
+    if(ui->buttonSimu->isChecked()){
+        //TO DO
+    }
+
+    //Drawing Field if box checked
+    if(ui->buttonField->isChecked()){
+        //TO DO
+    }
 }
