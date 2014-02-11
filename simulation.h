@@ -5,14 +5,15 @@
 #include "ibex.h"
 
 using namespace ibex;
-
+/*
+Le constructeur initialise les fonctions f&g
+La fonction simumontecarlo enregistre dans data la trajectoire à partir d'une condition initiale générée aléatoirement.
+La fonction drawrob permet de tracer le robot à un temps trackbar donné
+*/
 class simulation
 {
 public:
     simulation(Function& f, Function& g);
-    void set_f(Function& f);
-    void set_g(Function& g);
-    void set_t_trackbar(double t);
 
     void simuMonteCarlo(repere& R);
     void drawrob(repere& R,double t);

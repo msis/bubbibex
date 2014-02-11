@@ -2,7 +2,7 @@
 
 simulation::simulation(Function& f, Function& g): fonct_f(f), fonct_g(g)
 {
-    t_trackbar = 0.0;
+     t_trackbar = 0.0;
     dt = 1.0;
 }
 
@@ -10,6 +10,7 @@ simulation::simulation(Function& f, Function& g): fonct_f(f), fonct_g(g)
 void simulation::simuMonteCarlo(repere& R)
 {
     double x1, x2;
+    cout<<fonct_f;
     x1 = rand()% 20 - 10 ;
     x2 = rand()% 20 - 10;
 
@@ -23,8 +24,8 @@ void simulation::simuMonteCarlo(repere& R)
     boxOut[1] = Interval(x2);
     boxOut[2] = Interval(0.0);
 
-    for (double i=0 ; i<1000 ;i=i+dt){
-        box[2] = i;
+    for (double i=0 ; i<1000 ;i++){
+        box[2] = Interval(i);
         data.push_back(boxOut);
         Interval xPrec = boxOut[0];
         Interval yPrec = boxOut[1];
@@ -35,13 +36,11 @@ void simulation::simuMonteCarlo(repere& R)
 }
 
 void simulation::drawrob(repere& R,double t){
-    IntervalVector current;
+    IntervalVector current(3);
     double x,y;
     t_trackbar = t;
-
-
     current=data[int(t_trackbar/dt)];
-    y=current[0].mid();
+    y = current[0].mid();
     x = current[1].mid();
     R.DrawRobot(x,y,0);
 }
