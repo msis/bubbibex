@@ -182,6 +182,12 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuBubbibex">
+    <property name="title">
+     <string>Bubbibex</string>
+    </property>
+   </widget>
+   <addaction name="menuBubbibex"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
