@@ -17,17 +17,25 @@ void simulation::simuMonteCarlo(repere* R,int NB)
     x2 = rand()% 20 - 10;
     x3 = rand()%10 - 5;
 
-    //Transforme les doubles en intervals pour computer les
-    IntervalVector box(4);
-    box[0] = Interval(x1);
-    box[1] = Interval(x2);
-    box[2] = Interval(x3);
-    box[3] = Interval(t);
+    //Box pour f
+    IntervalVector boxf(4);
+    boxf[0] = Interval(x1);
+    boxf[1] = Interval(x2);
+    boxf[2] = Interval(x3);
+    boxf[3] = Interval(t);
+
+    //Box pour g
+    IntervalVector boxg(2);
+    boxg[0] = Interval(x1);
+    boxg[1] = Interval(x2);
+
 
     for (double i=0 ; i<NB ;i++){
-        data.push_back(box);
-        box = box + dt*fonct_f.eval_vector(box);
-        box[3] = Interval(t+dt);
+        dataf.push_back(boxf);
+        datag.push_back(boxg);
+        boxf = boxf + dt*fonct_f.eval_vector(boxf);
+        boxg = boxg + dt*fonct_g.eval_vector(boxg);
+        boxf[3] = Interval(t+dt);
     }
 
 }
@@ -35,21 +43,28 @@ void simulation::simuMonteCarlo(repere* R,int NB)
 void simulation::drawtraj(repere* R){
     IntervalVector cur(4);
     IntervalVector next(4);
-    for(int i;i<data.size();i++){
-        cur=data[i];
-        next=data[i+1];
+    for(int i;i<dataf.size();i++){
+        cur=dataf[i];
+        next=dataf[i+1];
         R->DrawLine(cur[0].mid(),cur[1].mid(),next[0].mid(),next[1].mid(),QPen(Qt::black));
+
     }
 
 }
 
 void simulation::drawrob(repere* R,double t){
-    IntervalVector current(4);
-    double x,y,theta;
+    IntervalVector currentf(4);
+    IntervalVector currentg(2);
+    double x,y,theta,cx,cy;
+    double Ra = 1;//Radius of the target
     t_trackbar = t;
-    current=data[int(t_trackbar/dt)];
-    x = current[0].mid();
-    y = current[1].mid();
-    theta = current[2].mid();
+    currentf=dataf[int(t_trackbar/dt)];
+    currentg=datag[int(t_trackbar/dt)];
+    x = currentf[0].mid();
+    y = currentf[1].mid();
+    cx = currentg[0].mid();
+    cy = currentg[1].mid();
+    theta = currentf[2].mid();
     R->DrawRobot(x,y,theta);
+    R->DrawEllipse(cx,cy,Ra,QPen(Qt::black),QBrush(Qt::NoBrush));
 }

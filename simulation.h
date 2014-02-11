@@ -25,7 +25,8 @@ private:
     double t_trackbar;
     double dt;
     Interval t;
-    vector<IntervalVector> data;
+    vector<IntervalVector> dataf;
+    vector<IntervalVector> datag;
 
 };
 
