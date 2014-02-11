@@ -1,4 +1,6 @@
 #include "sivia.h"
+#include "math.h"
+#define _USE_MATH_DEFINES
 
 
 void Sivia::contract_and_draw(Ctc& c, IntervalVector& X, const QColor & pencolor, const QColor & brushcolor) {
@@ -27,19 +29,12 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
     NumConstraint c1(x,y,f(x,y)<=2);
     NumConstraint c2(x,y,f(x,y)>=0);
     NumConstraint c3(x,y,f(x,y)>2);
-    NumConstraint c4(x,y,f(x,y)<0);
 
     // Create contractors with respect to each
     // of the previous constraints.
-    CtcFwdBwd out1(c1);
-    CtcFwdBwd out2(c2);
-    CtcFwdBwd in1(c3);
-    CtcFwdBwd in2(c4);
-
-    // Create a contractor that removes all the points
-    // that do not satisfy either f(x,y)<=2 or f(x,y)>=0.
-    // These points are "outside" of the solution set.
-    CtcCompo outside(out1,out2);
+    CtcFwdBwd in1(c1);
+    CtcFwdBwd in2(c2);
+    CtcFwdBwd in3(c3);
 
     // Create a contractor that removes all the points
     // that do not satisfy both f(x,y)>2 or f(x,y)<0.
@@ -47,9 +42,12 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
     CtcUnion inside(in1,in2);
 
     // Build the initial box.
-    IntervalVector box(2);
+    static const Interval POS_REALS;
+    IntervalVector box(4); // creer un Qarray de intervales vecteurs
     box[0]=Interval(-10,10);
     box[1]=Interval(-10,10);
+    box[2]=Interval(0,2*M_PI);
+    box[3]=POS_REALS;
 
     // Build the way boxes will be bisected.
     // "LargestFirst" means that the dimension bisected
