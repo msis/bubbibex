@@ -2,45 +2,54 @@
 
 simulation::simulation(Function& f, Function& g): fonct_f(f), fonct_g(g)
 {
-     t_trackbar = 0.0;
+    t_trackbar = 0.0;
     dt = 1.0;
 }
 
 
-void simulation::simuMonteCarlo(repere& R)
+void simulation::simuMonteCarlo(repere* R,int NB)
 {
-    double x1, x2;
-    cout<<fonct_f;
-    x1 = rand()% 20 - 10 ;
+    //Genere les positions x1,x2 aleatoirement (methode de Monte Carlo)
+    double dt = 0.01;
+    double t = 0;
+    double x1, x2, x3;
+    x1 = rand()% 20 - 10;
     x2 = rand()% 20 - 10;
+    x3 = rand()%10 - 5;
 
-    IntervalVector box(3);
+    //Transforme les doubles en intervals pour computer les
+    IntervalVector box(4);
     box[0] = Interval(x1);
     box[1] = Interval(x2);
-    box[2] = Interval(0.0);
+    box[2] = Interval(x3);
+    box[3] = Interval(t);
 
-    IntervalVector boxOut(3);
-    boxOut[0] = Interval(x1);
-    boxOut[1] = Interval(x2);
-    boxOut[2] = Interval(0.0);
-
-    for (double i=0 ; i<1000 ;i++){
-        box[2] = Interval(i);
-        data.push_back(boxOut);
-        Interval xPrec = boxOut[0];
-        Interval yPrec = boxOut[1];
-        boxOut = fonct_f.eval_vector(box);
-        R.DrawLine(xPrec.mid(),yPrec.mid(),boxOut[0].mid(),boxOut[1].mid(),QPen(Qt::black));
+    for (double i=0 ; i<NB ;i++){
+        data.push_back(box);
+        box = box + dt*fonct_f.eval_vector(box);
+        box[3] = Interval(t+dt);
     }
 
 }
 
-void simulation::drawrob(repere& R,double t){
-    IntervalVector current(3);
-    double x,y;
+void simulation::drawtraj(repere* R){
+    IntervalVector cur(4);
+    IntervalVector next(4);
+    for(int i;i<data.size();i++){
+        cur=data[i];
+        next=data[i+1];
+        R->DrawLine(cur[0].mid(),cur[1].mid(),next[0].mid(),next[1].mid(),QPen(Qt::black));
+    }
+
+}
+
+void simulation::drawrob(repere* R,double t){
+    IntervalVector current(4);
+    double x,y,theta;
     t_trackbar = t;
     current=data[int(t_trackbar/dt)];
-    y = current[0].mid();
-    x = current[1].mid();
-    R.DrawRobot(x,y,0);
+    x = current[0].mid();
+    y = current[1].mid();
+    theta = current[2].mid();
+    R->DrawRobot(x,y,theta);
 }

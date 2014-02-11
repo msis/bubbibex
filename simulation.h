@@ -15,8 +15,9 @@ class simulation
 public:
     simulation(Function& f, Function& g);
 
-    void simuMonteCarlo(repere& R);
-    void drawrob(repere& R,double t);
+    void simuMonteCarlo(repere* R,int NB);
+    void drawrob(repere* R,double t);
+    void drawtraj(repere* R);
 
 private:
     Function fonct_f;
