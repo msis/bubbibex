@@ -9,7 +9,7 @@ simulation::simulation(Function& f, Function& g): fonct_f(f), fonct_g(g)
 
 void simulation::simuMonteCarlo(repere* R,int NB)
 {
-    dataf.empty();datag.empty();
+    dataf.clear();datag.clear();
     //Genere les positions x1,x2 aleatoirement (methode de Monte Carlo)
     double dt = 0.01;
     double t = 0;
@@ -37,7 +37,7 @@ void simulation::simuMonteCarlo(repere* R,int NB)
         dataf.push_back(boxf);
         datag.push_back(boxg);
         boxf = boxf + dt*fonct_f.eval_vector(boxf);
-        boxg = boxg + dt*fonct_g.eval_vector(boxg);
+        boxg = fonct_g.eval_vector(boxf);
         boxf[3] = Interval(t+dt);
         boxg[3] = Interval(t+dt);
     }
@@ -45,13 +45,17 @@ void simulation::simuMonteCarlo(repere* R,int NB)
 }
 
 void simulation::drawtraj(repere* R){
-    IntervalVector cur(4);
-    IntervalVector next(4);
-    for(int i;i<dataf.size();i++){
-        cur=dataf[i];
-        next=dataf[i+1];
-        R->DrawLine(cur[0].mid(),cur[1].mid(),next[0].mid(),next[1].mid(),QPen(Qt::black));
-
+    IntervalVector curf(4);
+    IntervalVector nextf(4);
+    IntervalVector curg(4);
+    IntervalVector nextg(4);
+    for(int i=0;i<dataf.size()-1;i++){
+        curf=dataf[i];
+        nextf=dataf[i+1];
+        curg=datag[i];
+        nextg=datag[i+1];
+        R->DrawLine(curf[0].mid(),curf[1].mid(),nextf[0].mid(),nextf[1].mid(),QPen(Qt::blue));
+        R->DrawLine(curg[0].mid(),curg[1].mid(),nextg[0].mid(),nextg[1].mid(),QPen(Qt::green));
     }
 
 }
@@ -70,5 +74,6 @@ void simulation::drawrob(repere* R,double t){
     cy = currentg[1].mid();
     theta = currentf[2].mid();
     R->DrawRobot(x,y,theta);
-    R->DrawEllipse(cx,cy,Ra,QPen(Qt::black),QBrush(Qt::NoBrush));
+    R->DrawEllipse(cx,cy,Ra,QPen(Qt::green),QBrush(Qt::NoBrush));
+
 }
