@@ -25,10 +25,13 @@ void MainWindow::Init() {
     R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
 
     //Scenario
-    //TO DO
+    Sce = new scenar();
+    ui->textf->setPlainText(Sce->initf());
+    ui->textg->setPlainText(Sce->initg());
+    ui->textc->setPlainText(Sce->initc());
 
     //Simulation
-    S = new simulation(/*f*/,/*g*/); //TO DO
+    //Simu = new simulation(/*f*/,/*g*/); //TO DO
 
     //Intervalles
 
@@ -86,6 +89,12 @@ void MainWindow::on_timeBar_valueChanged(int position)
     drawAll();
 }
 
+void MainWindow::on_pushButton_clicked()
+{
+    Sce->save(Sce->initf(), Sce->initg(), Sce->initc());
+}
+
+
 //Fonction d'affichage
 void MainWindow::drawAll(){
     double t = ui->timeBar->value();
@@ -98,7 +107,7 @@ void MainWindow::drawAll(){
 
     //Drawing Simulation if box checked
     if(ui->buttonSimu->isChecked()){
-        S->drawrob(R, t);
+        //S->drawrob(R, t);
     }
 
     //Drawing Field if box checked
@@ -106,3 +115,4 @@ void MainWindow::drawAll(){
         //TO DO
     }
 }
+

@@ -1,9 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+
 #include <QDebug>
 #include <QMainWindow>
+#include <QString>
+
 #include "repere.h"
 #include "simulation.h"
+#include "scenar.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -23,7 +28,10 @@ public:
 private:
     Ui::MainWindow *ui;
     repere* R;
-    simulation* S;
+    scenar* Sce;
+    simulation* Simu;
+
+
 
 protected:
     void resizeEvent(QResizeEvent*);
@@ -35,6 +43,7 @@ private slots:
 
 
 private slots:
+    void on_pushButton_clicked();
     void on_timeBar_valueChanged(int position);
     void on_tmaxField_valueChanged(int );
     void on_buttonSimu_stateChanged(int );

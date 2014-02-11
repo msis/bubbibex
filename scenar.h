@@ -1,6 +1,8 @@
 #ifndef SCENAR_H
 #define SCENAR_H
 
+#include <QString>
+
 class scenar
 {
 public:
