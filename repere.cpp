@@ -12,6 +12,7 @@ repere::repere(QObject *parent,QGraphicsView* G,double xmin1, double xmax1,doubl
 {    Scene=new QGraphicsScene(this);
      G->setScene(Scene);
      xmin=xmin1; xmax=xmax1; ymin=ymin1; ymax=ymax1;
+     qDebug()<<G->geometry().width() << G->geometry().height();
      Scene->setSceneRect(0,0,G->geometry().width()-3,G->geometry().height()-3);
      DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::black),QBrush(Qt::NoBrush));
 }

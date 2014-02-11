@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include <QDebug>
 #include <QMainWindow>
+#include "repere.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +21,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    repere* R;
+
+protected:
+    void resizeEvent(QResizeEvent*);
 
 signals:
 

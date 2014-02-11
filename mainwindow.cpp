@@ -5,7 +5,6 @@
 #include "sivia.h"
 
 
-
 MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     Init();
@@ -13,10 +12,40 @@ MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainW
 
 void MainWindow::Init() {
     ui->timeBar->setMaximum(ui->tmaxField->value());
+
+    this->show();
+
+    // Build the frame
+    double xmin=-10;
+    double xmax=10;
+    double ymin=-10;
+    double ymax=10;
+
+    R = new repere(this,ui->graphicsView,xmin,xmax,ymin,ymax);
+    R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+//Gestion redimensionnement
+void MainWindow::resizeEvent(QResizeEvent* event){
+    QMainWindow::resizeEvent(event);
+
+    // Build the frame
+    double xmin=-10;
+    double xmax=10;
+    double ymin=-10;
+    double ymax=10;
+
+    if(R!=NULL && this->isVisible()){
+        R->Scene->setSceneRect(0,0,ui->graphicsView->geometry().width()-3,ui->graphicsView->geometry().height()-3);
+        R->Clean();
+        R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
+
+        drawAll();
+    }
 }
 
 //Table d'evenements
