@@ -9,6 +9,7 @@ simulation::simulation(Function& f, Function& g): fonct_f(f), fonct_g(g)
 
 void simulation::simuMonteCarlo(repere* R,int NB)
 {
+    dataf.empty();datag.empty();
     //Genere les positions x1,x2 aleatoirement (methode de Monte Carlo)
     double dt = 0.01;
     double t = 0;
@@ -25,9 +26,11 @@ void simulation::simuMonteCarlo(repere* R,int NB)
     boxf[3] = Interval(t);
 
     //Box pour g
-    IntervalVector boxg(2);
+    IntervalVector boxg(4);
     boxg[0] = Interval(x1);
     boxg[1] = Interval(x2);
+    boxg[2] = Interval(x3);
+    boxg[3] = Interval(t);
 
 
     for (double i=0 ; i<NB ;i++){
@@ -36,6 +39,7 @@ void simulation::simuMonteCarlo(repere* R,int NB)
         boxf = boxf + dt*fonct_f.eval_vector(boxf);
         boxg = boxg + dt*fonct_g.eval_vector(boxg);
         boxf[3] = Interval(t+dt);
+        boxg[3] = Interval(t+dt);
     }
 
 }
@@ -54,7 +58,7 @@ void simulation::drawtraj(repere* R){
 
 void simulation::drawrob(repere* R,double t){
     IntervalVector currentf(4);
-    IntervalVector currentg(2);
+    IntervalVector currentg(4);
     double x,y,theta,cx,cy;
     double Ra = 1;//Radius of the target
     t_trackbar = t;
