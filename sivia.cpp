@@ -70,10 +70,10 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
 
     // Build the initial box.
     IntervalVector box(4); // creer un Qarray de intervales vecteurs
-    box[0]=Interval(-10,10);
-    box[1]=Interval(-10,10);
+    box[0]=Interval(-10e30,10e30);
+    box[1]=Interval(-10e30,10e30);
     box[2]=Interval(0,2*M_PI);
-    box[3]=Interval(0,100);
+    box[3]=Interval::POS_REALS;
 
     // Build the way boxes will be bisected.
     // "LargestFirst" means that the dimension bisected
