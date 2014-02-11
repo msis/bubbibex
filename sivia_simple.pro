@@ -20,7 +20,7 @@ HEADERS += mainwindow.h \
 
 FORMS += mainwindow.ui
 
-IBEXHOME = C:/jaulin/QT/ibex2014/MinGW_4.4
+IBEXHOME = ################Ibex path here
 
 INCLUDEPATH += $$IBEXHOME/IBEX/include/ibex $$IBEXHOME/IBEX/include $$IBEXHOME/soplex-1.7.2/src -frounding-math -msse2 -mfpmath=sse
 
