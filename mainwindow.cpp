@@ -16,10 +16,10 @@ void MainWindow::Init() {
     this->show();
 
     // Build the frame
-    double xmin=-50;
-    double xmax=50;
-    double ymin=-50;
-    double ymax=50;
+    double xmin=-1000;
+    double xmax=1000;
+    double ymin=-1000;
+    double ymax=1000;
 
     R = new repere(this,ui->graphicsView,xmin,xmax,ymin,ymax);
     R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
@@ -87,11 +87,16 @@ void MainWindow::on_tmaxField_valueChanged(int value)
 {
     ui->timeBar->setMaximum(ui->tmaxField->value()-1);
     R->Clean();
-    Simu->simuMonteCarlo(R, ui->timeBar->maximum()+1);
-    if(ui->buttonSimu->isChecked()){       
+    for(uint i = 0; i <  10; i++){
+        Simu->mainOde();
+//        Simu->simuMonteCarlo(R,1000);
         Simu->drawtraj(R);
-        R->Center(0,0);
     }
+//    Simu->simuMonteCarlo(R, ui->timeBar->maximum()+1);
+//    if(ui->buttonSimu->isChecked()){
+//        Simu->drawtraj(R);
+//        R->Center(0,0);
+//    }
 
 }
 

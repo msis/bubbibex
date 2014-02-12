@@ -6,7 +6,7 @@
 #include <iostream>
 #include <boost/array.hpp>
 
-#include <boost/numeric/odeint.hpp>
+#include <boost/numeric/odeint/stepper/runge_kutta4.hpp>
 
 using namespace std;
 using namespace boost::numeric::odeint;
@@ -25,24 +25,14 @@ typedef boost::array< double , 3 > state_type;
 
 //[ rhs_class
 /* The rhs of x' = f(x) defined as a class */
-class harm_osc {
+class OdeSimulation {
 
-    double m_gam;
-
+     Function *f;
 public:
-    harm_osc( double gam ) : m_gam(gam) { }
+    OdeSimulation( Function *_f ) : f(_f) { }
 
-    void operator() ( const state_type &x , state_type &dxdt , const double /* t */ )
-    {
-        const double sigma = 10.0;
-        const double R = 28.0;
-        const double b = 8.0 / 3.0;
+    void operator() ( const state_type &x , state_type &dxdt , const double /* t */ );
 
-        const double gam = 0.15;
-        dxdt[0] = sigma * ( x[1] - x[0] );
-        dxdt[1] = R * x[0] - x[1] - x[0] * x[2];
-        dxdt[2] = -b * x[2] + x[0] * x[1];
-    }
 };
 //]
 
