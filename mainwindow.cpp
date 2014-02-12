@@ -38,7 +38,7 @@ void MainWindow::Init() {
     Function g(x,Return(7*x,sin(0.1*x)));
     Simu = new simulation(f,g);
     Simu->simuMonteCarlo(R, 1000);
-
+    Simu->mainOde();
     //Intervalles
 
 
