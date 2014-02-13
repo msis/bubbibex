@@ -5,7 +5,9 @@
 #include "sivia.h"
 
 
-MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainWindow),
+    xmin(-10), xmax(10), ymin(-10), ymax(10)
+{
     ui->setupUi(this);
     Init();
 }
@@ -15,21 +17,15 @@ void MainWindow::Init() {
 
     this->show();
 
-    // Build the frame
-    double xmin=-10;
-    double xmax=10;
-    double ymin=-10;
-    double ymax=10;
-
     R = new repere(this,ui->graphicsView,xmin,xmax,ymin,ymax);
     R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
 
     //Scenario
-    Sce = new scenar();
-    ui->textf->setPlainText(Sce->initf());
-    ui->textg->setPlainText(Sce->initg());
-    ui->textc->setPlainText(Sce->initc());
-    Sce->save(Sce->initf(), Sce->initg(), Sce->initc());
+    senario = new Scenario();
+    ui->textf->setPlainText(senario->initf());
+    ui->textg->setPlainText(senario->initg());
+    ui->textc->setPlainText(senario->initc());
+    senario->save(senario->initf(), senario->initg(), senario->initc());
 
     //Simulation
     Function f("f.txt");
@@ -47,18 +43,19 @@ void MainWindow::Init() {
 }
 
 MainWindow::~MainWindow() {
+    delete sivia;
+    delete senario;
+    delete Simu;
+    delete R;
     delete ui;
+
 }
 
 //Gestion redimensionnement
 void MainWindow::resizeEvent(QResizeEvent* event){
     QMainWindow::resizeEvent(event);
 
-    // Build the frame
-    double xmin=-10;
-    double xmax=10;
-    double ymin=-10;
-    double ymax=10;
+
 
     if(R!=NULL && this->isVisible()){
         R->Scene->setSceneRect(0,0,ui->graphicsView->geometry().width()-3,ui->graphicsView->geometry().height()-3); 
@@ -102,7 +99,7 @@ void MainWindow::on_timeBar_valueChanged(int position)
 
 void MainWindow::on_pushButton_clicked()
 {
-    Sce->save(Sce->initf(), Sce->initg(), Sce->initc());
+    senario->save(senario->initf(), senario->initg(), senario->initc());
 }
 
 

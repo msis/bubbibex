@@ -2,8 +2,10 @@
 #define SCENAR_H
 
 #include <QString>
+#include <QFile>
+#include <QTextStream>
 
-class scenar
+class Scenario
 {
 public:
     void save(QString f,QString g,QString c);

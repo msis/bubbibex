@@ -30,9 +30,15 @@ public:
 private:
     Ui::MainWindow *ui;
     repere* R;
-    scenar* Sce;
+    Scenario* senario;
     simulation* Simu;
     Sivia *sivia;
+
+    // Build the frame
+    double xmin;
+    double xmax;
+    double ymin;
+    double ymax;
 
 
 
