@@ -33,6 +33,7 @@ public:
     void DrawRobot(double x,double y,double theta,double s=1.0);
     void DrawText(QString s, int n);
     void Save(QString nom);
+    void Center(double x, double y);
 
 
 
