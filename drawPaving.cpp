@@ -11,25 +11,26 @@ void drawPaving::update(double& t,repere& R,IntervalVector& X,QPen pencolor,QBru
     if (X[3].contains(t))
     {
 
-        R.DrawBox(X[0].lb(),X[0].ub(),X[1].lb(),X[1].ub(),QPen(pencolor),QBrush(brushcolor));
+        R.DrawBox(X[0].lb(),X[0].ub(),X[1].lb(),X[1].ub(),pencolor,brushcolor);
 
+    }
+    else {
+        //qDebug() << "[" << X[3].lb() << " " << X[3].ub() << "]" << t;
     }
 
 }
 
 
 
-drawPaving::drawPaving(QList<IntervalVector>  Sout,QList<IntervalVector>  Sprob,double& t,repere& R,QObject *parent):
-     QObject(parent)
+drawPaving::drawPaving(QList<IntervalVector> &Sout, QList<IntervalVector> &Sprob, double t, repere& R)
 {
-    R.Clean();
-
+//    R.Clean();
     // on parcours la liste des interval vecteur out et on les represente
-
+    //qDebug() << "drawpaving "<< Sout.size() << " " << Sprob.size() << "t : "<<t;
     for(int i = 0; i<Sout.size(); i++)
     {
         IntervalVector Xout = Sout.at(i);
-        update(t,R,Xout,QPen(Qt::white),QBrush(Qt::white));
+        update(t,R,Xout,QPen(Qt::black),QBrush(Qt::white));
     }
 
     // // on parcours la liste des interval vecteur probables et on les represente

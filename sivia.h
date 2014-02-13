@@ -25,6 +25,10 @@ public:
      */
     void contract_and_draw(Ctc& c, IntervalVector& box,  const QColor & pencolor, const QColor & brushcolor, QList<IntervalVector>& Sout);
 
+    /* List for storing results */
+
+    QList<IntervalVector> Sp;
+    QList<IntervalVector> Sout;
 private:
     repere& R;
 };

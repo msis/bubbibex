@@ -16,10 +16,10 @@ void MainWindow::Init() {
     this->show();
 
     // Build the frame
-    double xmin=-50;
-    double xmax=50;
-    double ymin=-50;
-    double ymax=50;
+    double xmin=-10;
+    double xmax=10;
+    double ymin=-10;
+    double ymax=10;
 
     R = new repere(this,ui->graphicsView,xmin,xmax,ymin,ymax);
     R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
@@ -40,7 +40,7 @@ void MainWindow::Init() {
     Simu->simuMonteCarlo(R, 1000);
 
     //Intervalles
-
+    sivia = new Sivia(*R,0.1);
 
     //Pavage
 
@@ -55,10 +55,10 @@ void MainWindow::resizeEvent(QResizeEvent* event){
     QMainWindow::resizeEvent(event);
 
     // Build the frame
-    double xmin=-50;
-    double xmax=50;
-    double ymin=-50;
-    double ymax=50;
+    double xmin=-10;
+    double xmax=10;
+    double ymin=-10;
+    double ymax=10;
 
     if(R!=NULL && this->isVisible()){
         R->Scene->setSceneRect(0,0,ui->graphicsView->geometry().width()-3,ui->graphicsView->geometry().height()-3); 
@@ -114,7 +114,7 @@ void MainWindow::drawAll(){
 
     //Drawing Paving if box checked
     if(ui->buttonPaving->isChecked()){
-        //TO DO
+        drawPaving(sivia->Sout,sivia->Sp,t/100.0,*R);
     }
 
     //Drawing Simulation if box checked
@@ -125,7 +125,7 @@ void MainWindow::drawAll(){
 
     //Drawing Field if box checked
     if(ui->buttonField->isChecked()){
-        //TO DO
+
     }
 }
 

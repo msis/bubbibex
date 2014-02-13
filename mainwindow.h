@@ -8,6 +8,8 @@
 #include "repere.h"
 #include "simulation.h"
 #include "scenar.h"
+#include "sivia.h"
+#include "drawPaving.h"
 
 
 namespace Ui {
@@ -30,6 +32,7 @@ private:
     repere* R;
     scenar* Sce;
     simulation* Simu;
+    Sivia *sivia;
 
 
 
