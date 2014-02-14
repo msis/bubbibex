@@ -13,10 +13,6 @@ void drawPaving::update(double& t,repere& R,IntervalVector& X,QPen pencolor,QBru
         R.DrawBox(X[0].lb(),X[0].ub(),X[1].lb(),X[1].ub(),pencolor,brushcolor);
 
     }
-    else {
-        //qDebug() << "[" << X[3].lb() << " " << X[3].ub() << "]" << t;
-    }
-
 }
 
 
