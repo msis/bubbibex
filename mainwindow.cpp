@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainW
 }
 
 void MainWindow::Init() {
-    ui->timeBar->setMaximum(ui->tmaxField->value()-1);
 
     this->show();
 
@@ -31,11 +30,12 @@ void MainWindow::Init() {
 
     //Simulation
     Function f("f.txt");
-//    Function g("g.txt");
+    Function g("g.txt");
     Variable x;
-    Function g(x,Return(7*x,sin(0.1*x)));
+
     Simu = new simulation(f,g);
-    Simu->simuMonteCarlo(R, 1000);
+    ui->timeBar->setMaximum(ui->tmaxField->value()-1);
+    Simu->simuMonteCarlo(1000);
 
     //Intervalles
     sivia = new Sivia(*R,0.5);
@@ -86,7 +86,7 @@ void MainWindow::on_tmaxField_valueChanged(int value)
 {
     ui->timeBar->setMaximum(ui->tmaxField->value()-1);
     R->Clean();
-    Simu->simuMonteCarlo(R, ui->timeBar->maximum()+1);
+    Simu->simuMonteCarlo(ui->timeBar->maximum());
     if(ui->buttonSimu->isChecked()){       
         Simu->drawtraj(R);
         R->Center(0,0);
@@ -101,19 +101,21 @@ void MainWindow::on_timeBar_valueChanged(int position)
 
 void MainWindow::on_pushButton_clicked()
 {
-    senario->save(senario->initf(), senario->initg(), senario->initc());
+    senario->save(ui->textf->toPlainText(),
+                  ui->textg->toPlainText(),
+                  ui->textc->toPlainText());
 }
 
 
 //Fonction d'affichage
 void MainWindow::drawAll(){
     double t = ui->timeBar->value();
-    ui->curTime->setText(QString::number(t));
+    ui->curTime->setText(QString::number(t*Simu->dt));
     R->Clean();
 
     //Drawing Paving if box checked
     if(ui->buttonPaving->isChecked()){
-        drawPaving(sivia->Sout,sivia->Sp,t/1000.0,*R);
+        drawPaving(sivia->Sout,sivia->Sp,t*Simu->dt,*R);
     }
 
     //Drawing Simulation if box checked

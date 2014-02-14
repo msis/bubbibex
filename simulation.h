@@ -14,18 +14,16 @@ La fonction drawrob permet de tracer le robot à un temps trackbar donné
 class simulation
 {
 public:
-    simulation(Function& f, Function& g);
+    simulation(Function& f, Function& g, double dt = 0.005);
 
-    void simuMonteCarlo(repere* R,int NB);
+    void simuMonteCarlo(int NB);
     void drawrob(repere* R,double t);
     void drawtraj(repere* R);
-
+    double dt;
 private:
     Function fonct_f;
     Function fonct_g;
-    double t_trackbar;
-    double dt;
-    Interval t;
+
     vector<IntervalVector> dataf;
     vector<IntervalVector> datag;
 

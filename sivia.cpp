@@ -39,7 +39,7 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
 
     Function fconst(x1,x2,x3,t,dg(x1,x2,x3,t)*(M*transpose(f(x1,x2,x3,t))+V));
 
-    cout << fconst <<endl;
+//    cout << fconst <<endl;
 
 
     NumConstraint ciii(g, LEQ); // Equation (iii) du theoreme
@@ -107,7 +107,7 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
     while (!s.empty()) {
         IntervalVector box=s.top();
         s.pop();
-        contract_and_draw(ctc0,box,Qt::darkBlue,Qt::cyan, Sout);
+        contract_and_draw(un,box,Qt::darkBlue,Qt::cyan, Sout);
         if (box.is_empty()) { continue; }
 
         if (box.max_diam()<epsilon) {
@@ -117,7 +117,7 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
             pair<IntervalVector,IntervalVector> boxes=lf.bisect(box);
             s.push(boxes.first);
             s.push(boxes.second);
-            qDebug() << s.size() << " " << box.max_diam() << " " << k++ << " " << Sp.size() << " " << Sout.size();
+//            qDebug() << s.size() << " " << box.max_diam() << " " << k++ << " " << Sp.size() << " " << Sout.size();
         }
     }
 
