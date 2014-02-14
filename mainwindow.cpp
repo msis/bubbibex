@@ -44,7 +44,7 @@ void MainWindow::Init() {
     Simu->simuMonteCarlo(1000);
 
     //Intervalles
-    sivia = new Sivia(*R,0.5);
+    sivia = new Sivia(*R,0.3);
 
     //Pavage
 

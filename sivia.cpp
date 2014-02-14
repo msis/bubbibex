@@ -116,14 +116,14 @@ Sivia::Sivia(repere& R, double epsilon) : R(R), epsilon(epsilon) {
     // Create a contractor that removes all the points
     // that do not satisfy both f(x,y)>2 or f(x,y)<0.
     // These points are "inside" the solution set.
-    CtcCompo un(ctc0,ctc1);
+    CtcUnion un(ctc0,ctc1);
 
     // Build the initial box.
     IntervalVector box(4); // creer un Qarray de intervales vecteurs
     box[0]=Interval(-10,10);
     box[1]=Interval(-10,10);
     box[2]=Interval(-M_PI_2+0.1,M_PI_2-0.1 );
-    box[3]=Interval(0,100);
+    box[3]=Interval(0,0.1);
 
     runSivia(un,box,this->Sout, this->Sp);
 

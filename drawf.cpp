@@ -10,33 +10,35 @@ void Drawf::updateDrawf(IntervalVector& X, double &t, repere& R){
     pen1.setWidth(2);
     pen1.setColor(Qt::black);
 
+    x1  = X[0].mid();
+    x2 = X[1].mid();
 
     //Creation du cadre
     double eps=0.5;  //precision du maillage
-    for (x1=X[0].lb();x1<=X[0].ub();x1+=eps){
-        for (x2=X[1].lb();x2<=X[1].ub();x2+=eps){
-            for(x3=X[2].lb();x3<=X[2].ub();x3+=eps){
+    //    for (x1=X[0].lb();x1<=X[0].ub();x1+=eps){
+    //        for (x2=X[1].lb();x2<=X[1].ub();x2+=eps){
+    for(x3=X[2].lb();x3<=X[2].ub();x3+=eps){
 
-            double _p[4][2]={{x1,x1},{x2,x2},{x3,x3},{t,t}};
-//            double _p[4]={x1,x2,x3,t};
+        double _p[4][2]={{x1,x1},{x2,x2},{x3,x3},{t,t}};
+        //            double _p[4]={x1,x2,x3,t};
 
-            IntervalVector p(4,_p);
+        IntervalVector p(4,_p);
 
-            IntervalVector b = f-> eval_vector(p);
-            double f1=b[0].mid();
-            double f2=b[1].mid();
+        IntervalVector b = f-> eval_vector(p);
+        double f1=b[0].mid();
+        double f2=b[1].mid();
 
 
-            //Calcul des normes des vecteurs
-            double n=sqrt(pow(f1,2)+pow(f2,2));
+        //Calcul des normes des vecteurs
+        double n=sqrt(pow(f1,2)+pow(f2,2));
 
-            //Trace des fleches
-            R.DrawArrow(x1,x2,eps*f1/n,eps*f2/n,0.1,pen1);
+        //Trace des fleches
+        R.DrawArrow(x1,x2,eps*f1/n,eps*f2/n,0.1,pen1);
 
-            }
-
-        }
     }
+
+    //        }
+    //    }
 }
 
 Drawf::Drawf(QList<IntervalVector> &Bgprob, double t, repere& R){
