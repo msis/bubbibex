@@ -17,8 +17,10 @@ void MainWindow::Init() {
 
     this->show();
 
-    R = new repere(this,ui->graphicsView,xmin,xmax,ymin,ymax);
+    //R = new repere(this,ui->graphicsView,xmin,xmax,ymin,ymax);
+    R = ui->graphicsView;
     R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
+    ui->graphicsView->setMouseTracking(true);
 
     //Scenario
     senario = new Scenario();
@@ -36,7 +38,7 @@ void MainWindow::Init() {
     Simu->simuMonteCarlo(R, 1000);
 
     //Intervalles
-    sivia = new Sivia(*R,0.1);
+    sivia = new Sivia(*R,0.5);
 
     //Pavage
 
@@ -46,7 +48,7 @@ MainWindow::~MainWindow() {
     delete sivia;
     delete senario;
     delete Simu;
-    delete R;
+//    delete R;
     delete ui;
 
 }
@@ -58,7 +60,7 @@ void MainWindow::resizeEvent(QResizeEvent* event){
 
 
     if(R!=NULL && this->isVisible()){
-        R->Scene->setSceneRect(0,0,ui->graphicsView->geometry().width()-3,ui->graphicsView->geometry().height()-3); 
+        R->Scene->setSceneRect(0,0,R->geometry().width()-3,R->geometry().height()-3);
         drawAll();
         R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
     }
@@ -111,7 +113,7 @@ void MainWindow::drawAll(){
 
     //Drawing Paving if box checked
     if(ui->buttonPaving->isChecked()){
-        drawPaving(sivia->Sout,sivia->Sp,t/100.0,*R);
+        drawPaving(sivia->Sout,sivia->Sp,t/1000.0,*R);
     }
 
     //Drawing Simulation if box checked
