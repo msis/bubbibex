@@ -1,5 +1,4 @@
 #include "drawPaving.h"
-
 /* Cette fonction recoit le temps t de la trackbar, le repere cree dans la fenetre principale,
 un vecteur d'intervalles (et non pas une liste de vecteurs d'intervalles), et les couleurs.
 Elle sera ensuite utilisée pour dessiner les pavages incertains et out.
@@ -39,7 +38,7 @@ drawPaving::drawPaving(QList<IntervalVector> &Sout, QList<IntervalVector> &Sprob
     {
 
         IntervalVector Xprob= Sprob.at(i);
-        update(t,R,Xprob,QPen(Qt::gray),QBrush(Qt::gray));
+        update(t,R,Xprob,QPen(Qt::darkGray),QBrush(Qt::lightGray));
     }
 
 

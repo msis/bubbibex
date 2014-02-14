@@ -79,5 +79,5 @@ void simulation::drawrob(repere* R,double t){
     theta = currentf[2].mid();
     R->Center(x,y);
     R->DrawRobot(x,y,theta,0.2);
-    cout << currentf << endl;
+//    cout << currentf << endl;
 }

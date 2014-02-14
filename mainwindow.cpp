@@ -18,8 +18,14 @@ void MainWindow::Init() {
 
     //R = new repere(this,ui->graphicsView,xmin,xmax,ymin,ymax);
     R = ui->graphicsView;
+    R->setDrawingArea(xmin,xmax,ymin,ymax);
+    R->Scene->setSceneRect(0,0,R->geometry().width()-3,R->geometry().height()-3);
     R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
+
+
     ui->graphicsView->setMouseTracking(true);
+
+    connect(R,SIGNAL(repaint_all()),this,SLOT(drawAll()));
 
     //Scenario
     senario = new Scenario();
@@ -56,9 +62,6 @@ MainWindow::~MainWindow() {
 //Gestion redimensionnement
 void MainWindow::resizeEvent(QResizeEvent* event){
     QMainWindow::resizeEvent(event);
-
-
-
     if(R!=NULL && this->isVisible()){
         R->Scene->setSceneRect(0,0,R->geometry().width()-3,R->geometry().height()-3);
         drawAll();
@@ -126,7 +129,7 @@ void MainWindow::drawAll(){
 
     //Drawing Field if box checked
     if(ui->buttonField->isChecked()){
-
+        Drawf(sivia->Sp,t*Simu->dt,*R);
     }
 }
 

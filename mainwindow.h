@@ -10,7 +10,7 @@
 #include "scenar.h"
 #include "sivia.h"
 #include "drawPaving.h"
-
+#include "drawf.h"
 
 namespace Ui {
 class MainWindow;
@@ -25,7 +25,7 @@ public:
     ~MainWindow();
 
     void Init();
-    void drawAll();
+
 
 private:
     Ui::MainWindow *ui;
@@ -58,6 +58,7 @@ private slots:
     void on_buttonSimu_stateChanged(int );
     void on_buttonPaving_stateChanged(int );
     void on_buttonField_stateChanged(int );
+    void drawAll();
 
 };
 

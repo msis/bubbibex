@@ -13,26 +13,8 @@ using namespace ibex;
 class drawPaving
 {
 public:
-
     void update(double& t,repere& R,IntervalVector& X,QPen pencolor,QBrush brushcolor);
-
-
-
     explicit drawPaving(QList<IntervalVector>  &Sout,QList<IntervalVector> &Sprob,double t,repere& R);
-
-
-
-signals:
-
-public slots:
-
-private:
-//    repere* R;
-//    double t;
-//    QList<IntervalVector>  Sout;
-//    QList<IntervalVector>  Sprob;
-
-
 };
 
 #endif // DRAWPAVING_H

@@ -24,6 +24,7 @@ public:
     double yToPix(double y);
     double pixToX(double x);
     double pixToY(double y);
+    void setDrawingArea(double xmin, double xmax,double ymin, double ymax);
     void Clean();
     void DrawArrow(double x1,double y1,double dx,double dy,double r=0.1, QPen pen1=QPen(Qt::black));
     void DrawAxis(QPen pen1=QPen(Qt::black));
@@ -40,6 +41,8 @@ public:
     void wheelEvent(QWheelEvent *e);
 
 signals:
+
+    void repaint_all();
 
 public slots:
 

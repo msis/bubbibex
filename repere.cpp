@@ -10,7 +10,7 @@ repere::repere(QWidget *parent,double xmin1, double xmax1,double ymin1, double y
     xmin=xmin1; xmax=xmax1; ymin=ymin1; ymax=ymax1;
     f = 0;
     Scene->setSceneRect(0,0,this->geometry().width()-3,this->geometry().height()-3);
-    DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::black),QBrush(Qt::NoBrush));
+//    DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::black),QBrush(Qt::NoBrush));
 }
 //--------------------------------------------------------------------------------------------------
 /*repere::repere(QWidget *parent,double xmin1, double xmax1,double ymin1, double ymax1) :
@@ -35,14 +35,23 @@ double repere::yToPix(double y)
 //--------------------------------------------------------------------------------------------------
 double repere::pixToX(double x)
 {
-    double echx = (xmax-xmin)/Scene->width();
-    return x*echx-xmin;
+    double echx = Scene->width()/(xmax-xmin);
+    return x/echx+xmin;
 }
+
 //--------------------------------------------------------------------------------------------------
 double repere::pixToY(double y)
 {
-    double echy = (ymax-ymin)/Scene->width();
-    return y*echy-ymin;
+    double echy = Scene->height()/(ymax-ymin);
+    return (Scene->height()-y)/echy + ymin;
+}
+//--------------------------------------------------------------------------------------------------
+void repere::setDrawingArea(double xmin, double xmax, double ymin, double ymax)
+{
+    this->xmax=xmax;
+    this->xmin=xmin;
+    this->ymax=ymax;
+    this->ymin=ymin;
 }
 //--------------------------------------------------------------------------------------------------
 void repere::Clean()
@@ -152,13 +161,15 @@ void repere::mousePressEvent(QMouseEvent* event)
 {
     double x = pixToX(event->x());
     double y = pixToY(event->y());
+    Center(x,y);
+    emit repaint_all();
 
-    if(event->button()==Qt::RightButton){
-        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-        double scaleFactor = std::pow(1.15,f);
-        f = 0;
-        this->scale(scaleFactor,scaleFactor);
-    }
+//    if(event->button()==Qt::RightButton){
+//        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+//        double scaleFactor = std::pow(1.15,f);
+//        f = 0;
+//        this->scale(scaleFactor,scaleFactor);
+//    }
 
 }
 //--------------------------------------------------------------------------------------------------
@@ -166,11 +177,17 @@ void repere::wheelEvent(QWheelEvent *e){
     setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
     double scaleFactor =1.15;
     if(e->delta() > 0){
-        this->scale(scaleFactor,scaleFactor);
+//        this->scale(scaleFactor,scaleFactor);
+        xmin/=2; xmax /=2;
+        ymin/=2; ymax /=2;
         f--;
     } else {
-        this->scale(1/scaleFactor,1/scaleFactor);
+        xmin*=2; xmax *=2;
+        ymin*=2; ymax *=2;
+//        this->scale(1/scaleFactor,1/scaleFactor);
         f++;
     }
+    emit repaint_all();
+//    Scene->update(this->sceneRect());
 }
 //--------------------------------------------------------------------------------------------------
