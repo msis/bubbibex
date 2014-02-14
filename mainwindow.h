@@ -58,6 +58,7 @@ private slots:
     void on_buttonSimu_stateChanged(int );
     void on_buttonPaving_stateChanged(int );
     void on_buttonField_stateChanged(int );
+
 };
 
 
