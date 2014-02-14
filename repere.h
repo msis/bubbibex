@@ -11,17 +11,19 @@ using namespace std;
 #include <vector>
 
 
-class repere : public QObject
+class repere : public QGraphicsView
 {
     Q_OBJECT
 public:
     QGraphicsScene* Scene;
-    double xmin,xmax,ymin,ymax;
+    double xmin,xmax,ymin,ymax,f;
 
-    explicit repere(QObject *parent = 0);
-    repere(QObject *parent = 0,QGraphicsView* G=0,double xmin=0,double xmax=10,double ymin=0,double ymax=10);
+    explicit repere(QWidget *parent = 0,double xmin=0,double xmax=10,double ymin=0,double ymax=10);
+//    repere(QWidget *parent = 0,double xmin=0,double xmax=10,double ymin=0,double ymax=10);
     double xToPix(double x);
     double yToPix(double y);
+    double pixToX(double x);
+    double pixToY(double y);
     void Clean();
     void DrawArrow(double x1,double y1,double dx,double dy,double r=0.1, QPen pen1=QPen(Qt::black));
     void DrawAxis(QPen pen1=QPen(Qt::black));
@@ -34,10 +36,8 @@ public:
     void DrawText(QString s, int n);
     void Save(QString nom);
     void Center(double x, double y);
-
-
-
-
+    void mousePressEvent(QMouseEvent* event);
+    void wheelEvent(QWheelEvent *e);
 
 signals:
 
