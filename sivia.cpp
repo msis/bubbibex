@@ -23,11 +23,37 @@ void Sivia::contract_and_draw(Ctc& c, IntervalVector& X, const QColor & pencolor
 
 Sivia::Sivia(repere& R, double epsilon) : R(R) {
 
-    Variable x,y,z,x1,x2,x3,t;
-    Function foc(x,y,z,x+sqr(y)+3*z);
+    int n = 3; // number of variables in the state vector x = (x,y,theta)
+    Variable x1,x2,x3;
+    Variable x(n),t;
+    //Function foc(x,y,z,return(x+sqr(y)+3*z, 5*x+y+z));
+    //cout << foc <<endl;
 
+    double _M[4*3] = {1,0,0,0,1,0,0,0,1,0,0,0};
+    double _V[4] = {0,0,0,1};
+    IntervalVector boxxx(4,Interval(-1,1));
+    Matrix M(n+1,n,_M);
+    Vector V(n+1,_V);
+    Function f("f.txt");
+    Function g("g.txt");
+    Function dg(g,Function::DIFF);
+    //cout<<f.eval_vector(boxxx)<<endl;
+    //cout<<M<<"   "<<V<<endl;
+    //cout<<dg.eval_matrix(boxxx)<<endl;
+
+    Function fconst(x1,x2,x3,t,dg(x1,x2,x3,t)*(M*transpose(f(x1,x2,x3,t))+V));
+
+    cout << fconst <<endl;
+
+
+    NumConstraint ciii(g, LEQ); // Equation (iii) du theoreme
+    NumConstraint cii0(x1,x2,x3,t,g(x1,x2,x2,t)[0] =0); // Equation (ii) du theorem pour g1
+    NumConstraint ci0(x1,x2,x3,t,fconst(x1,x2,x2,t)[0] >=0); // Equation (i) du theorem pour g1
+    NumConstraint cii1(x1,x2,x3,t,g(x1,x2,x2,t)[1] =0); // Equation (ii) du theorem pour g2
+    NumConstraint ci1(x1,x2,x3,t,fconst(x1,x2,x2,t)[1] >=0);// Equation (i) du theorem pour g2
+
+            /* ANCIENNE METHODE POUR LE CALCUL DES DERIVEES
     Function ff("f.txt");
-
     Function gg("g.txt");
     Function ggd(gg,Function::DIFF);
 
@@ -46,6 +72,7 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
     NumConstraint cii0(x1,x2,x3,t,gg(x1,x2,x3,t)[0]=0);
     NumConstraint cii1(x1,x2,x3,t,gg(x1,x2,x3,t)[1]=0);
     NumConstraint ciii(gg,LEQ);
+            */
 
     Array<NumConstraint> c0,c1;
     c0.add(ci0);
@@ -109,3 +136,4 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
     R.Save("paving");
 
 }
+
