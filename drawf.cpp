@@ -7,7 +7,7 @@ void Drawf::updateDrawf(IntervalVector& X, double &t, repere& R){
     //Parametres de trace des fle
     QPen pen1;
     pen1.setStyle(Qt::SolidLine);
-    pen1.setWidth(1);
+    pen1.setWidth(2);
     pen1.setColor(Qt::black);
 
 

@@ -4,7 +4,7 @@
 #define _USE_MATH_DEFINES
 
 
-void Sivia::contract_and_draw(Ctc& c, IntervalVector& X, const QColor & pencolor, const QColor & brushcolor, QList<IntervalVector>& Sout) {
+void Sivia::contract_and_store(Ctc& c, IntervalVector& X, QList<IntervalVector>& Sout) {
     IntervalVector X0=X;       // get a copy
     try {
         c.contract(X);
@@ -20,8 +20,39 @@ void Sivia::contract_and_draw(Ctc& c, IntervalVector& X, const QColor & pencolor
     }
 }
 
+void Sivia::runSivia(Ctc& c, IntervalVector &box, QList<IntervalVector>& Sout, QList<IntervalVector>& Sp){
 
-Sivia::Sivia(repere& R, double epsilon) : R(R) {
+
+    // Build the way boxes will be bisected.
+    // "LargestFirst" means that the dimension bisected
+    // is always the largest one.
+    LargestFirst lf;
+
+    stack<IntervalVector> s;
+    s.push(box);
+
+    int k = 0;
+    cout << "Init SIVIA! " << endl;
+    while (!s.empty()) {
+        IntervalVector box=s.top();
+        s.pop();
+        contract_and_store(c,box, Sout);
+        if (box.is_empty()) { continue; }
+
+        if (box.max_diam()<epsilon) {
+            Sp.append(box);
+        } else {
+
+            pair<IntervalVector,IntervalVector> boxes=lf.bisect(box);
+            s.push(boxes.first);
+            s.push(boxes.second);
+//            qDebug() << s.size() << " " << box.max_diam() << " " << k++ << " " << Sp.size() << " " << Sout.size();
+        }
+    }
+}
+
+
+Sivia::Sivia(repere& R, double epsilon) : R(R), epsilon(epsilon) {
 
     int n = 3; // number of variables in the state vector x = (x,y,theta)
     Variable x1,x2,x3;
@@ -39,7 +70,7 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
 
     Function fconst(x1,x2,x3,t,dg(x1,x2,x3,t)*(M*transpose(f(x1,x2,x3,t))+V));
 
-//    cout << fconst <<endl;
+    //    cout << fconst <<endl;
 
 
     NumConstraint ciii(g, LEQ); // Equation (iii) du theoreme
@@ -48,7 +79,7 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
     NumConstraint cii1(x1,x2,x3,t,g(x1,x2,x2,t)[1] =0); // Equation (ii) du theorem pour g2
     NumConstraint ci1(x1,x2,x3,t,fconst(x1,x2,x2,t)[1] >=0);// Equation (i) du theorem pour g2
 
-            /* ANCIENNE METHODE POUR LE CALCUL DES DERIVEES
+    /* ANCIENNE METHODE POUR LE CALCUL DES DERIVEES
     Function ff("f.txt");
     Function gg("g.txt");
     Function ggd(gg,Function::DIFF);
@@ -85,7 +116,7 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
     // Create a contractor that removes all the points
     // that do not satisfy both f(x,y)>2 or f(x,y)<0.
     // These points are "inside" the solution set.
-    CtcUnion un(ctc0,ctc1);
+    CtcCompo un(ctc0,ctc1);
 
     // Build the initial box.
     IntervalVector box(4); // creer un Qarray de intervales vecteurs
@@ -94,39 +125,7 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
     box[2]=Interval(-M_PI_2+0.1,M_PI_2-0.1 );
     box[3]=Interval(0,100);
 
-    // Build the way boxes will be bisected.
-    // "LargestFirst" means that the dimension bisected
-    // is always the largest one.
-    LargestFirst lf;
-
-    stack<IntervalVector> s;
-    s.push(box);
-
-    int k = 0;
-    cout << "Init SIVIA! " << endl;
-    while (!s.empty()) {
-        IntervalVector box=s.top();
-        s.pop();
-        contract_and_draw(un,box,Qt::darkBlue,Qt::cyan, Sout);
-        if (box.is_empty()) { continue; }
-
-        if (box.max_diam()<epsilon) {
-            Sp.append(box);
-        } else {
-
-            pair<IntervalVector,IntervalVector> boxes=lf.bisect(box);
-            s.push(boxes.first);
-            s.push(boxes.second);
-//            qDebug() << s.size() << " " << box.max_diam() << " " << k++ << " " << Sp.size() << " " << Sout.size();
-        }
-    }
-
-//    for(int i=0; i<Sp.size()-1;i++){
-//        cout << "Set perhaps " << Sp.at(i) << endl;
-//    }
-//    for(int i=0; i<Sout.size()-1;i++){
-//        cout << "Set out " << Sout.at(i) << endl;
-//    }
+    runSivia(un,box,this->Sout, this->Sp);
 
 
     R.Save("paving");

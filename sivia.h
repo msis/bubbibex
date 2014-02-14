@@ -23,14 +23,15 @@ public:
      * Contract "box" with "c" and draw the trace (i.e., the difference between box and c(box))
      * with the colors "pencolor" and "brushcolor".
      */
-    void contract_and_draw(Ctc& c, IntervalVector& box,  const QColor & pencolor, const QColor & brushcolor, QList<IntervalVector>& Sout);
+    void contract_and_store(Ctc &c, IntervalVector &X, QList<IntervalVector> &Sout);
+    void runSivia(Ctc &c, IntervalVector &box, QList<IntervalVector> &Sout, QList<IntervalVector> &Sp);
 
     /* List for storing results */
-
     QList<IntervalVector> Sp;
     QList<IntervalVector> Sout;
 private:
     repere& R;
+    double epsilon;
 };
 
 #endif // SIVIA_H
