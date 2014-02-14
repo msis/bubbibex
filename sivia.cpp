@@ -26,8 +26,7 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
     int n = 3; // number of variables in the state vector x = (x,y,theta)
     Variable x1,x2,x3;
     Variable x(n),t;
-    //Function foc(x,y,z,return(x+sqr(y)+3*z, 5*x+y+z));
-    //cout << foc <<endl;
+
 
     double _M[4*3] = {1,0,0,0,1,0,0,0,1,0,0,0};
     double _V[4] = {0,0,0,1};
@@ -37,9 +36,6 @@ Sivia::Sivia(repere& R, double epsilon) : R(R) {
     Function f("f.txt");
     Function g("g.txt");
     Function dg(g,Function::DIFF);
-    //cout<<f.eval_vector(boxxx)<<endl;
-    //cout<<M<<"   "<<V<<endl;
-    //cout<<dg.eval_matrix(boxxx)<<endl;
 
     Function fconst(x1,x2,x3,t,dg(x1,x2,x3,t)*(M*transpose(f(x1,x2,x3,t))+V));
 
