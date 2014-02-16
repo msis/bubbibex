@@ -122,8 +122,8 @@ Sivia::Sivia(repere& R, double epsilon) : R(R), epsilon(epsilon) {
     IntervalVector box(4); // creer un Qarray de intervales vecteurs
     box[0]=Interval(-10,10);
     box[1]=Interval(-10,10);
-    box[2]=Interval(-M_PI_2+0.1,M_PI_2-0.1 );
-    box[3]=Interval(0,0.1);
+    box[2]=Interval(-M_PI_2+0.5,M_PI_2-0.5 );
+    box[3]=Interval(0,1);
 
     runSivia(un,box,this->Sout, this->Sp);
 

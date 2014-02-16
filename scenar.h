@@ -8,10 +8,12 @@
 class Scenario
 {
 public:
-    void save(QString f,QString g,QString c);
+    void save(QString f,QString g/*,QString c*/);
+    void load(QString &f, QString &g);
     QString initf();
     QString initg();
-    QString initc();
+    //    QString initc();
+
 };
 
 #endif // SCENAR_H

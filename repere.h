@@ -39,7 +39,7 @@ public:
     void Center(double x, double y);
     void mousePressEvent(QMouseEvent* event);
     void wheelEvent(QWheelEvent *e);
-
+    void mouseMoveEvent(QMouseEvent *event);
 signals:
 
     void repaint_all();

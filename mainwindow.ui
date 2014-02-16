@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="Display">
        <attribute name="title">
@@ -125,7 +125,13 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPlainTextEdit" name="textf"/>
+         <widget class="QPlainTextEdit" name="textf">
+          <property name="font">
+           <font>
+            <family>Monospace</family>
+           </font>
+          </property>
+         </widget>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_3">
@@ -135,19 +141,15 @@
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QPlainTextEdit" name="textg"/>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Constraint</string>
+         <widget class="QPlainTextEdit" name="textg">
+          <property name="font">
+           <font>
+            <family>Monospace</family>
+           </font>
           </property>
          </widget>
         </item>
-        <item row="5" column="0">
-         <widget class="QPlainTextEdit" name="textc"/>
-        </item>
-        <item row="3" column="1">
+        <item row="2" column="1">
          <widget class="QPushButton" name="pushButton">
           <property name="text">
            <string>Save</string>

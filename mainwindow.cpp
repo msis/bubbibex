@@ -29,10 +29,15 @@ void MainWindow::Init() {
 
     //Scenario
     senario = new Scenario();
-    ui->textf->setPlainText(senario->initf());
-    ui->textg->setPlainText(senario->initg());
-    ui->textc->setPlainText(senario->initc());
-    senario->save(senario->initf(), senario->initg(), senario->initc());
+    QString sf,sg;
+    senario->load(sf,sg);
+
+//    qDebug() << sf;
+//    qDebug() << sg;
+    ui->textf->setPlainText(sf);
+    ui->textg->setPlainText(sg);
+//    ui->textc->setPlainText(senario->initc());
+//    senario->save(senario->initf(), senario->initg(), senario->initc());
 
     //Simulation
     Function f("f.txt");
@@ -105,8 +110,8 @@ void MainWindow::on_timeBar_valueChanged(int position)
 void MainWindow::on_pushButton_clicked()
 {
     senario->save(ui->textf->toPlainText(),
-                  ui->textg->toPlainText(),
-                  ui->textc->toPlainText());
+                  ui->textg->toPlainText());
+//                  ui->textc->toPlainText());
 }
 
 

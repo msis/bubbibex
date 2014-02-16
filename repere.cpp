@@ -22,6 +22,19 @@ repere::repere(QWidget *parent,double xmin1, double xmax1,double ymin1, double y
      DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::black),QBrush(Qt::NoBrush));
 }*/
 //--------------------------------------------------------------------------------------------------
+void repere::mouseMoveEvent(QMouseEvent *event)
+{
+   double x = event->x();//Recuperer les coordonnees de la souris dans widgetCameleon
+   double y = event->y();
+   QToolTip::showText(event->globalPos(),
+                          //  In most scenarios you will have to change these for
+                          //  the coordinate system you are working in.
+                          QString::number( pixToX(event->pos().x()) ) + ", " +
+                          QString::number( pixToY(event->pos().y()) ),
+                          this, rect() );
+       QWidget::mouseMoveEvent(event);  // Or whatever the base class is.
+}
+//--------------------------------------------------------------------------------------------------
 double repere::xToPix(double x)
 {   double echx = Scene->width()/(xmax-xmin);
     return (x-xmin)*echx;
