@@ -131,7 +131,7 @@ QString Scenario::initf1()
 QString Scenario::initg1()
 {
     QString ini;
-    ini.append("function f(x1,x2,x3,t) \n \
+    ini.append("function g(x1,x2,x3,t) \n \
         return(\n \
             ((x1-t)^2+(x2)^2-1),\n \
             ((cos(x3)-1)^2 +(sin(x3))^2 - 0.2) \n \
