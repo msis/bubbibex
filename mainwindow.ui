@@ -165,7 +165,7 @@
             <item>
              <widget class="QLineEdit" name="x_min">
               <property name="text">
-               <string>-10</string>
+               <string>-10000</string>
               </property>
              </widget>
             </item>
@@ -179,7 +179,7 @@
             <item>
              <widget class="QLineEdit" name="x_max">
               <property name="text">
-               <string>10</string>
+               <string>10000</string>
               </property>
              </widget>
             </item>
@@ -197,7 +197,7 @@
             <item>
              <widget class="QLineEdit" name="y_min">
               <property name="text">
-               <string>-10</string>
+               <string>-10000</string>
               </property>
              </widget>
             </item>
@@ -211,7 +211,7 @@
             <item>
              <widget class="QLineEdit" name="y_max">
               <property name="text">
-               <string>10</string>
+               <string>10000</string>
               </property>
              </widget>
             </item>
@@ -229,7 +229,7 @@
             <item>
              <widget class="QLineEdit" name="th_min">
               <property name="text">
-               <string>-PI/2+0.5</string>
+               <string>-PI</string>
               </property>
              </widget>
             </item>
@@ -243,7 +243,7 @@
             <item>
              <widget class="QLineEdit" name="th_max">
               <property name="text">
-               <string>PI/2-0.5</string>
+               <string>PI</string>
               </property>
              </widget>
             </item>
