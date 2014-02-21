@@ -63,6 +63,8 @@ private slots:
     void on_buttonField_stateChanged(int );
     void drawAll();
 
+    void on_loadfFromFile_clicked();
+    void on_loadgFromFile_clicked();
 };
 
 

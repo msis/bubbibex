@@ -165,6 +165,28 @@ void MainWindow::on_push_runSivia_clicked()
 
 }
 
+void MainWindow::on_loadfFromFile_clicked()
+{
+    QString fileName1 = QFileDialog::getOpenFileName(this,tr("Open Text File For Function f"), "", tr("Text Files (*.txt)"));
+    QFile file1(fileName1);
+    if(!file1.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    ui->textf->setPlainText(file1.readAll());
+    file1.close();
+
+}
+
+
+void MainWindow::on_loadgFromFile_clicked()
+{
+    QString fileName1 = QFileDialog::getOpenFileName(this,tr("Open Text File For Function g"), "", tr("Text Files (*.txt)"));
+    QFile file1(fileName1);
+    if(!file1.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    ui->textg->setPlainText(file1.readAll());
+    file1.close();
+}
+
 //Fonction d'affichage
 void MainWindow::drawAll(){
     double t = ui->timeBar->value();
@@ -188,5 +210,8 @@ void MainWindow::drawAll(){
     }
 
 }
+
+
+
 
 

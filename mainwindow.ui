@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>604</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -395,6 +395,20 @@
           </property>
          </widget>
         </item>
+        <item row="6" column="2">
+         <widget class="QPushButton" name="loadfFromFile">
+          <property name="text">
+           <string>Load f from file</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="3">
+         <widget class="QPushButton" name="loadgFromFile">
+          <property name="text">
+           <string>Load g from file</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </widget>
@@ -407,7 +421,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuBubbibex">
