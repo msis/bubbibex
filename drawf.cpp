@@ -10,7 +10,7 @@ void Drawf::updateDrawf(IntervalVector& X, double &t, repere& R){
     pen1.setWidth(2);
     pen1.setColor(Qt::black);
 
-    x1  = X[0].mid();
+    x1 = X[0].mid();
     x2 = X[1].mid();
 
     //Creation du cadre

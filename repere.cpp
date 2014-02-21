@@ -49,14 +49,16 @@ double repere::yToPix(double y)
 double repere::pixToX(double x)
 {
     double echx = Scene->width()/(xmax-xmin);
-    return x/echx+xmin;
+    double pixx = x/echx+xmin;
+    return pixx;
 }
 
 //--------------------------------------------------------------------------------------------------
 double repere::pixToY(double y)
 {
     double echy = Scene->height()/(ymax-ymin);
-    return (Scene->height()-y)/echy + ymin;
+    double pixy = (Scene->height()-y)/echy + ymin;
+    return pixy;
 }
 //--------------------------------------------------------------------------------------------------
 void repere::setDrawingArea(double xmin, double xmax, double ymin, double ymax)
@@ -173,11 +175,7 @@ void repere::Save(QString nom)
 void repere::mousePressEvent(QMouseEvent* event)
 {
     if(event->button()==Qt::RightButton){
-        xmin/=std::pow(2,f); xmax/=std::pow(2,f);
-        ymin/=std::pow(2,f); ymax/=std::pow(2,f);
-        f = 0;
-        Center(0,0);
-        emit repaint_all();
+        zoomReset();
     }
     else{
         double x = pixToX(event->x());
@@ -188,16 +186,32 @@ void repere::mousePressEvent(QMouseEvent* event)
 
 }
 //--------------------------------------------------------------------------------------------------
-void repere::wheelEvent(QWheelEvent *e){
-    if(e->delta() > 0){
-        xmin/=2; xmax /=2;
-        ymin/=2; ymax /=2;
-        f--;
-    } else {
-        xmin*=2; xmax *=2;
-        ymin*=2; ymax *=2;
-        f++;
-    }
+void repere::zoomReset()
+{
+    xmin/=std::pow(2,f); xmax/=std::pow(2,f);
+    ymin/=std::pow(2,f); ymax/=std::pow(2,f);
+    f = 0;
+    Center(0,0);
     emit repaint_all();
+}
+//--------------------------------------------------------------------------------------------------
+void repere::zoomPlus()
+{
+    xmin/=2; xmax /=2;
+    ymin/=2; ymax /=2;
+    f--;
+    emit repaint_all();
+}
+//--------------------------------------------------------------------------------------------------
+void repere::zoomMinus(){
+    xmin*=2; xmax *=2;
+    ymin*=2; ymax *=2;
+    f++;
+    emit repaint_all();
+}
+//--------------------------------------------------------------------------------------------------
+void repere::wheelEvent(QWheelEvent *e){
+    if(e->delta() > 0) zoomPlus();
+    else zoomMinus();
 }
 //--------------------------------------------------------------------------------------------------

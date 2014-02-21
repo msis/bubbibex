@@ -38,6 +38,9 @@ public:
     void Save(QString nom);
     void Center(double x, double y);
     void mousePressEvent(QMouseEvent* event);
+    void zoomReset();
+    void zoomPlus();
+    void zoomMinus();
     void wheelEvent(QWheelEvent *e);
     void mouseMoveEvent(QMouseEvent *event);
 signals:

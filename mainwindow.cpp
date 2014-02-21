@@ -38,7 +38,6 @@ void MainWindow::Init() {
 
 
     Simu = new simulation();
-    ui->timeBar->setMaximum(ui->tmaxField->value()-1);
     sivia = NULL;
     on_push_run_clicked();
 
@@ -79,18 +78,6 @@ void MainWindow::on_buttonSimu_stateChanged(int state)
     drawAll();
 }
 
-void MainWindow::on_tmaxField_valueChanged(int value)
-{
-    ui->timeBar->setMaximum(ui->tmaxField->value()-1);
-    R->Clean();
-    Simu->simuMonteCarlo(ui->timeBar->maximum()+1);
-    if(ui->buttonSimu->isChecked()){       
-        Simu->drawtraj(R);
-        R->Center(0,0);
-    }
-
-}
-
 void MainWindow::on_timeBar_valueChanged(int position)
 {
     drawAll();
@@ -123,7 +110,8 @@ void MainWindow::on_push_run_clicked()
     ui->push_run->setEnabled(true);
 
     //Run MonteCarlo Simulation
-    Simu->simuMonteCarlo(1000);
+    ui->timeBar->setMaximum(ui->t_max->text().toDouble()/Simu->dt);
+    Simu->simuMonteCarlo(ui->t_max->text().toDouble()/Simu->dt+1);
 
     //Rune SIVIA
     //Loading parameters
@@ -203,6 +191,21 @@ void MainWindow::on_textg_textChanged()
     ui->push_run->setDisabled(true);
 }
 
+void MainWindow::on_pushZoomPlus_clicked()
+{
+    R->zoomPlus();
+}
+
+void MainWindow::on_pushZoomMinus_clicked()
+{
+    R->zoomMinus();
+}
+
+void MainWindow::on_pushZoomRaz_clicked()
+{
+    R->zoomReset();
+}
+
 
 ///Fonction d'affichage
 void MainWindow::drawAll(){
@@ -215,15 +218,14 @@ void MainWindow::drawAll(){
         drawPaving(sivia->Sout,sivia->Sp,t*Simu->dt,*R);
     }
 
-    //Drawing Simulation if box checked
-    if(ui->buttonSimu->isChecked()){
-        Simu->drawtraj(R);
-        Simu->drawrob(R,t);
-    }
-
     //Drawing Field if box checked
     if(ui->buttonField->isChecked()){
         Drawf(sivia->Sp,t*Simu->dt,*R);
     }
 
+    //Drawing Simulation if box checked
+    if(ui->buttonSimu->isChecked()){
+        Simu->drawtraj(R);
+        Simu->drawrob(R,t);
+    }
 }

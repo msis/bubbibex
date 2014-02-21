@@ -52,6 +52,10 @@ void simulation::simuMonteCarlo(int NB)
         boxf = boxf + dt*fonct_f.eval_vector(boxf);
         t += dt;
         boxf[3] = Interval(t);
+        boxf[0] = boxf[0].mid();
+        boxf[1] = boxf[1].mid();
+        boxf[2] = boxf[2].mid();
+
      }
 }
 
@@ -71,6 +75,7 @@ void simulation::drawrob(repere* R,double t){
     double x,y,theta;
     t_trackbar = t;
     currentf=dataf[int(t_trackbar)];
+    cout << currentf << endl;
     x = currentf[0].mid();
     y = currentf[1].mid();
     theta = currentf[2].mid();
