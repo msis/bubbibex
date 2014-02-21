@@ -1,7 +1,67 @@
 #include "scenar.h"
 #include <QDebug>
+#include <stdio.h>
+
+Scenario::Scenario()
+{
+    initFileFunc();
+}
+
+void Scenario::initFileFunc()
+{
+    //Creating function Table
+    QString funcTab[3][2];
+
+    funcTab[0][0] = initf1();
+    funcTab[0][1] = initg1();
+    funcTab[1][0] = initf2();
+    funcTab[1][1] = initg2();
+    funcTab[2][0] = initf3();
+    funcTab[2][1] = initg3();
 
 
+    //Generating default function files if necessary
+    for(int ii=1; ii<4; ii++){
+        QString sf = "f" + QString::number(ii) + ".txt";
+        QString sg = "g" + QString::number(ii) + ".txt";
+
+        QFile ff(sf);
+        QFile fg(sg);
+
+        if(!ff.exists()){
+            ff.open(QIODevice::WriteOnly | QIODevice::Text);
+            QTextStream outf(&ff);
+            outf << funcTab[ii-1][0];
+            ff.close();
+        }
+
+        if(!fg.exists()){
+            fg.open(QIODevice::WriteOnly | QIODevice::Text);
+            QTextStream outg(&fg);
+            outg << funcTab[ii-1][1];
+            fg.close();
+        }
+    }
+
+    /*//Generating current function files if necessary
+    QFile ff("f.txt");
+    QFile fg("g.txt");
+
+    if(!ff.exists()){
+        ff.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream outf(&ff);
+        outf << funcTab[0][0];
+        ff.close();
+    }
+
+    if(!fg.exists()){
+        fg.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream outg(&fg);
+        outg << funcTab[0][1];
+        fg.close();
+    }*/
+
+}
 
 void Scenario::save(QString f, QString g)
 {
@@ -16,13 +76,6 @@ void Scenario::save(QString f, QString g)
     QTextStream out2(&file2);
     out2 << g << "\n";
     file2.close();
-
-//    QFile file3("constraints.txt");
-//    if (!file3.open(QIODevice::WriteOnly | QIODevice::Text)) return;
-//    QTextStream out3(&file3);
-//    out3 << c << "\n";
-//    file3.close();
-
 }
 
 void Scenario::load(QString &f, QString &g)

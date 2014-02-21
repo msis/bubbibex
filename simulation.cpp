@@ -1,6 +1,6 @@
 #include "simulation.h"
 
-simulation::simulation(Function& f, Function& g): fonct_f(f), fonct_g(g)
+simulation::simulation()
 {
     t_trackbar = 0.0;
     dt = 0.01;
@@ -10,6 +10,9 @@ simulation::simulation(Function& f, Function& g): fonct_f(f), fonct_g(g)
 void simulation::simuMonteCarlo(int NB)
 {
     dataf.clear();//Nettoie la liste de positions
+
+    Function fonct_f("f.txt");
+    Function fonct_g("g.txt");
 
     //Genere les positions x1,x2 aleatoirement (methode de Monte Carlo)
     double t = 0;

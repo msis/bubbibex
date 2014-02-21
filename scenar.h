@@ -7,7 +7,11 @@
 
 class Scenario
 {
+
+
 public:
+    explicit Scenario();
+
     void save(QString f,QString g/*,QString c*/);
     void load(QString &f, QString &g);
     QString initf();
@@ -20,6 +24,7 @@ public:
     QString initf2();
     QString initg3();
     QString initf3();
+    void initFileFunc();
 };
 
 #endif // SCENAR_H

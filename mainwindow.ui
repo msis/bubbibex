@@ -137,7 +137,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1" rowspan="6">
+        <item row="1" column="1" rowspan="7">
          <widget class="Line" name="line">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -353,19 +353,6 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QPushButton" name="push_runSivia">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Run Sivia</string>
-          </property>
-         </widget>
-        </item>
         <item row="4" column="2">
          <widget class="QLabel" name="label_3">
           <property name="text">
@@ -388,24 +375,51 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="4">
-         <widget class="QPushButton" name="pushButton">
+        <item row="7" column="4">
+         <widget class="QPushButton" name="pushSave">
           <property name="text">
            <string>Save Functions</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="2">
+        <item row="7" column="2">
          <widget class="QPushButton" name="loadfFromFile">
           <property name="text">
            <string>Load f from file</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="3">
+        <item row="7" column="3">
          <widget class="QPushButton" name="loadgFromFile">
           <property name="text">
            <string>Load g from file</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="Line" name="line_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QPushButton" name="push_run">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Run</string>
           </property>
          </widget>
         </item>
@@ -421,7 +435,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuBubbibex">

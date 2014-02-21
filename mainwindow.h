@@ -54,8 +54,10 @@ private slots:
 
 
 private slots:
-    void on_push_runSivia_clicked();
-    void on_pushButton_clicked();
+    void on_textg_textChanged();
+    void on_textf_textChanged();
+    void on_push_run_clicked();
+    void on_pushSave_clicked();
     void on_timeBar_valueChanged(int position);
     void on_tmaxField_valueChanged(int );
     void on_buttonSimu_stateChanged(int );

@@ -37,19 +37,11 @@ void MainWindow::Init() {
     ui->textg->setPlainText(sg);
 
 
-    //Simulation
-    Function f("f.txt");
-    Function g("g.txt");
-    Variable x;
-
-    Simu = new simulation(f,g);
+    Simu = new simulation();
     ui->timeBar->setMaximum(ui->tmaxField->value()-1);
-    Simu->simuMonteCarlo(1000);
-
-    //Intervalles
     sivia = NULL;
-    on_push_runSivia_clicked();
-    drawAll();
+    on_push_run_clicked();
+
 
 }
 
@@ -104,10 +96,12 @@ void MainWindow::on_timeBar_valueChanged(int position)
     drawAll();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pushSave_clicked()
 {
     senario->save(ui->textf->toPlainText(),
                   ui->textg->toPlainText());
+
+    ui->push_run->setEnabled(true);
 }
 
 double MainWindow::str2double(QString s){
@@ -124,8 +118,15 @@ QString interval2String(Interval &i){
     return s;
 }
 
-void MainWindow::on_push_runSivia_clicked()
+void MainWindow::on_push_run_clicked()
 {
+    ui->push_run->setEnabled(true);
+
+    //Run MonteCarlo Simulation
+    Simu->simuMonteCarlo(1000);
+
+    //Rune SIVIA
+    //Loading parameters
     QScriptEngine e;
     double _box[4][2];
     _box[0][0] = (ui->x_min->text()).toDouble();
@@ -163,6 +164,7 @@ void MainWindow::on_push_runSivia_clicked()
 
     QMessageBox::information(this,"Sivia report",info);
 
+    drawAll();
 }
 
 void MainWindow::on_loadfFromFile_clicked()
@@ -174,6 +176,7 @@ void MainWindow::on_loadfFromFile_clicked()
     ui->textf->setPlainText(file1.readAll());
     file1.close();
 
+    //ui->push_run->setDisabled(true);
 }
 
 
@@ -185,9 +188,23 @@ void MainWindow::on_loadgFromFile_clicked()
         return;
     ui->textg->setPlainText(file1.readAll());
     file1.close();
+
+    //ui->push_run->setDisabled(true);
 }
 
-//Fonction d'affichage
+
+void MainWindow::on_textf_textChanged()
+{
+    ui->push_run->setDisabled(true);
+}
+
+void MainWindow::on_textg_textChanged()
+{
+    ui->push_run->setDisabled(true);
+}
+
+
+///Fonction d'affichage
 void MainWindow::drawAll(){
     double t = ui->timeBar->value();
     ui->curTime->setText(QString::number(t*Simu->dt));
@@ -210,8 +227,3 @@ void MainWindow::drawAll(){
     }
 
 }
-
-
-
-
-
