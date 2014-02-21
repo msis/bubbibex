@@ -29,12 +29,36 @@ drawPaving::drawPaving(QList<IntervalVector> &Sout, QList<IntervalVector> &Sprob
     }
 
     // // on parcours la liste des interval vecteur probables et on les represente
+    QList<IntervalVector> Sprob_t;
+
     for(int i = 0; i<Sprob.size();i++)
     {
 
         IntervalVector Xprob= Sprob.at(i);
-        update(t,R,Xprob,QPen(Qt::darkGray),QBrush(Qt::lightGray));
+        update(t,R,Xprob,QPen(Qt::yellow),QBrush(Qt::yellow));
+        if (Xprob[3].contains(t))
+        {
+          Sprob_t.push_back(Xprob);
+        }
+
+
     }
+
+    if((Sprob_t).isEmpty()!=1){
+
+        int l=Sprob_t.size();
+        cout<<l;
+        for (int i =0;i<10;i++){
+            int x1 = (rand()% l);
+            IntervalVector x = Sprob_t.at(x1);
+            cout<<x;
+            if (x[3].contains(t))
+            {
+            R.DrawRobot(x[0].mid(),x[1].mid(),x[2].mid(),0.05);
+            }
+        }
+    }
+
 
 
 
