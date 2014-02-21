@@ -29,7 +29,6 @@ drawPaving::drawPaving(QList<IntervalVector> &Sout, QList<IntervalVector> &Sprob
     }
 
     // // on parcours la liste des interval vecteur probables et on les represente
-
     for(int i = 0; i<Sprob.size();i++)
     {
 
