@@ -118,6 +118,12 @@ double MainWindow::str2double(QString s){
     return v.toNumber();
 }
 
+QString interval2String(Interval &i){
+    QString s;
+    s+= "[" + QString::number(i.lb()) + "," + QString::number(i.ub()) + "]";
+    return s;
+}
+
 void MainWindow::on_push_runSivia_clicked()
 {
     QScriptEngine e;
@@ -134,9 +140,29 @@ void MainWindow::on_push_runSivia_clicked()
     if(sivia!=NULL) delete sivia;
 
     IntervalVector box(4, _box);
-    cout << box;
+    //cout << box;
 
-    sivia = new Sivia(*R,0.3, box);
+    QTime t;
+    QString info;
+
+
+    t.start();
+    sivia = new Sivia(*R,ui->epsilonBox->value(), box);
+    double tsiv = t.elapsed()/1000.0;
+
+    info += "Elapsed time: " + QString::number(tsiv) + " s\n";
+
+    info += "\nInitial box:\n\tx:\t[" + QString::number(_box[0][0]) + "," + QString::number(_box[0][1]) + "]\n";
+    info += "\ty:\t[" + QString::number(_box[1][0]) + "," + QString::number(_box[1][1]) + "]\n";
+    info += "\ttheta:\t[" + QString::number(_box[2][0]) + "," + QString::number(_box[2][1]) + "]\n";
+    info += "\tt:\t[" + QString::number(_box[3][0]) + "," + QString::number(_box[3][1]) + "]\n";
+    info += "\tepsilon: " + QString::number(ui->epsilonBox->value()) + "\n";
+
+    info += "\nNumber of boxes: " + QString::number(sivia->Sout.size()+sivia->Sp.size());
+    info += "\nUnsafe boxes: " + QString::number(sivia->Sp.size());
+
+    QMessageBox::information(this,"Sivia report",info);
+
 }
 
 //Fonction d'affichage
@@ -160,6 +186,7 @@ void MainWindow::drawAll(){
     if(ui->buttonField->isChecked()){
         Drawf(sivia->Sp,t*Simu->dt,*R);
     }
+
 }
 
 

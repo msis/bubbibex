@@ -28,8 +28,8 @@ void simulation::simuMonteCarlo(int NB)
         box[1] = Interval(x2);
         box[2] = Interval(x3);
         box[3] = Interval(t);
-        cout<<fonct_g.eval_vector(box)[0].mid();
-        cout<<fonct_g.eval_vector(box)[0];
+        //cout<<fonct_g.eval_vector(box)[0].mid();
+        //cout<<fonct_g.eval_vector(box)[0];
         if(fonct_g.eval_vector(box)[0].mid() <= 0 && fonct_g.eval_vector(box)[1].mid()<=0 )
             flag = 1;
     }
