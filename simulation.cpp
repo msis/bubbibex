@@ -7,7 +7,7 @@ simulation::simulation(Function& f, Function& g): fonct_f(f), fonct_g(g)
 }
 
 
-void simulation::simuMonteCarlo(repere* R,int NB)
+void simulation::simuMonteCarlo(int NB)
 {
     dataf.clear();//Nettoie la liste de positions
 

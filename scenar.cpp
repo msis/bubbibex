@@ -34,7 +34,7 @@ void Scenario::load(QString &f, QString &g)
         file1.close();
     } else {
         qDebug() << "defaut f string";
-        f = initf();
+        f = initf1();
     }
 
 
@@ -45,7 +45,7 @@ void Scenario::load(QString &f, QString &g)
         file2.close();
     } else {
         qDebug() << "defaut f string";
-        g = initg();
+        g = initg1();
     }
 
     save(f,g);

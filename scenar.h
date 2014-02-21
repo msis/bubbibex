@@ -14,6 +14,12 @@ public:
     QString initg();
     //    QString initc();
 
+    QString initg1();
+    QString initg2();
+    QString initf1();
+    QString initf2();
+    QString initg3();
+    QString initf3();
 };
 
 #endif // SCENAR_H
