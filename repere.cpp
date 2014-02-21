@@ -172,35 +172,32 @@ void repere::Save(QString nom)
 //--------------------------------------------------------------------------------------------------
 void repere::mousePressEvent(QMouseEvent* event)
 {
-    double x = pixToX(event->x());
-    double y = pixToY(event->y());
-    Center(x,y);
-    emit repaint_all();
-
-//    if(event->button()==Qt::RightButton){
-//        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-//        double scaleFactor = std::pow(1.15,f);
-//        f = 0;
-//        this->scale(scaleFactor,scaleFactor);
-//    }
+    if(event->button()==Qt::RightButton){
+        xmin/=std::pow(2,f); xmax/=std::pow(2,f);
+        ymin/=std::pow(2,f); ymax/=std::pow(2,f);
+        f = 0;
+        Center(0,0);
+        emit repaint_all();
+    }
+    else{
+        double x = pixToX(event->x());
+        double y = pixToY(event->y());
+        Center(x,y);
+        emit repaint_all();
+    }
 
 }
 //--------------------------------------------------------------------------------------------------
 void repere::wheelEvent(QWheelEvent *e){
-    setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-    double scaleFactor =1.15;
     if(e->delta() > 0){
-//        this->scale(scaleFactor,scaleFactor);
         xmin/=2; xmax /=2;
         ymin/=2; ymax /=2;
         f--;
     } else {
         xmin*=2; xmax *=2;
         ymin*=2; ymax *=2;
-//        this->scale(1/scaleFactor,1/scaleFactor);
         f++;
     }
     emit repaint_all();
-//    Scene->update(this->sceneRect());
 }
 //--------------------------------------------------------------------------------------------------

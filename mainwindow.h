@@ -40,10 +40,12 @@ private:
     double ymin;
     double ymax;
 
+    double str2double(QString s);
 
 
 protected:
     void resizeEvent(QResizeEvent*);
+
 
 signals:
 
@@ -52,6 +54,7 @@ private slots:
 
 
 private slots:
+    void on_push_runSivia_clicked();
     void on_pushButton_clicked();
     void on_timeBar_valueChanged(int position);
     void on_tmaxField_valueChanged(int );

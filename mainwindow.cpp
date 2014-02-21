@@ -1,12 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "QtScript/qscriptengine.h"
+#include "qdebug.h"
 
 #include "ibex.h"
 #include "sivia.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainWindow),
-    xmin(-10), xmax(10), ymin(-10), ymax(10)
+xmin(-10), xmax(10), ymin(-10), ymax(10)
 {
     ui->setupUi(this);
     Init();
@@ -16,11 +18,9 @@ void MainWindow::Init() {
 
     this->show();
 
-    //R = new repere(this,ui->graphicsView,xmin,xmax,ymin,ymax);
     R = ui->graphicsView;
     R->setDrawingArea(xmin,xmax,ymin,ymax);
     R->Scene->setSceneRect(0,0,R->geometry().width()-3,R->geometry().height()-3);
-    R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
 
 
     ui->graphicsView->setMouseTracking(true);
@@ -32,12 +32,10 @@ void MainWindow::Init() {
     QString sf,sg;
     senario->load(sf,sg);
 
-//    qDebug() << sf;
-//    qDebug() << sg;
+
     ui->textf->setPlainText(sf);
     ui->textg->setPlainText(sg);
-//    ui->textc->setPlainText(senario->initc());
-//    senario->save(senario->initf(), senario->initg(), senario->initc());
+
 
     //Simulation
     Function f("f.txt");
@@ -49,9 +47,9 @@ void MainWindow::Init() {
     Simu->simuMonteCarlo(1000);
 
     //Intervalles
-    sivia = new Sivia(*R,0.3);
-
-    //Pavage
+    sivia = NULL;
+    on_push_runSivia_clicked();
+    drawAll();
 
 }
 
@@ -59,7 +57,7 @@ MainWindow::~MainWindow() {
     delete sivia;
     delete senario;
     delete Simu;
-//    delete R;
+    //    delete R;
     delete ui;
 
 }
@@ -70,7 +68,6 @@ void MainWindow::resizeEvent(QResizeEvent* event){
     if(R!=NULL && this->isVisible()){
         R->Scene->setSceneRect(0,0,R->geometry().width()-3,R->geometry().height()-3);
         drawAll();
-        R->DrawBox(xmin,xmax,ymin,ymax,QPen(Qt::blue),QBrush(Qt::NoBrush));
     }
 }
 
@@ -111,9 +108,36 @@ void MainWindow::on_pushButton_clicked()
 {
     senario->save(ui->textf->toPlainText(),
                   ui->textg->toPlainText());
-//                  ui->textc->toPlainText());
 }
 
+double MainWindow::str2double(QString s){
+
+    QScriptEngine e;
+    s.replace(QRegExp("PI"),"Math.PI");
+    QScriptValue v = e.evaluate(s);
+    return v.toNumber();
+}
+
+void MainWindow::on_push_runSivia_clicked()
+{
+    QScriptEngine e;
+    double _box[4][2];
+    _box[0][0] = (ui->x_min->text()).toDouble();
+    _box[0][1] = (ui->x_max->text()).toDouble();
+    _box[1][0] = (ui->y_min->text()).toDouble();
+    _box[1][1] = (ui->y_max->text()).toDouble();
+    _box[2][0] = str2double(ui->th_min->text());
+    _box[2][1] = str2double(ui->th_max->text());
+    _box[3][0] = (ui->t_min->text()).toDouble();
+    _box[3][1] = (ui->t_max->text()).toDouble();
+
+    if(sivia!=NULL) delete sivia;
+
+    IntervalVector box(4, _box);
+    cout << box;
+
+    sivia = new Sivia(*R,0.3, box);
+}
 
 //Fonction d'affichage
 void MainWindow::drawAll(){
@@ -137,4 +161,5 @@ void MainWindow::drawAll(){
         Drawf(sivia->Sp,t*Simu->dt,*R);
     }
 }
+
 

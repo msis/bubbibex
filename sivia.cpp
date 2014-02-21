@@ -52,7 +52,7 @@ void Sivia::runSivia(Ctc& c, IntervalVector &box, QList<IntervalVector>& Sout, Q
 }
 
 
-Sivia::Sivia(repere& R, double epsilon) : R(R), epsilon(epsilon) {
+Sivia::Sivia(repere& R, double epsilon, IntervalVector box) : R(R), epsilon(epsilon) {
 
     int n = 3; // number of variables in the state vector x = (x,y,theta)
     Variable x1,x2,x3;
@@ -119,14 +119,13 @@ Sivia::Sivia(repere& R, double epsilon) : R(R), epsilon(epsilon) {
     CtcUnion un(ctc0,ctc1);
 
     // Build the initial box.
-    IntervalVector box(4); // creer un Qarray de intervales vecteurs
-    box[0]=Interval(-10,10);
+    /*IntervalVector box(4); // creer un Qarray de intervales vecteurs
+    box[0]=Interval(-10,70);
     box[1]=Interval(-10,10);
     box[2]=Interval(-M_PI_2+0.5,M_PI_2-0.5 );
-    box[3]=Interval(0,1);
+    box[3]=Interval(0,10);*/
 
     runSivia(un,box,this->Sout, this->Sp);
-
 
     R.Save("paving");
 
