@@ -59,48 +59,118 @@ void Scenario::load(QString &f, QString &g)
 
 }
 
-QString Scenario::initf()
-{
-    QString ini;
-//    ini.append("function f(x1,x2,x3,t)\nreturn(sqrt((7*t-x1+7)^2+(sin(t/10)-x2+(1/10)*cos(t/10))^2)*cos(x3);\nsqrt((7*t-x1+7)^2+(sin(t/10)-x2+(1/10)*cos(t/10))^2)*sin(x3);\n(cos(x3)*(sin(t/10)-x2+(1/10)*cos(t/10))-sin(x3)*(7*t-x1+7))/sqrt((7*t-x1+7)^2+(sin(t/10)-x2+(1/10)*cos(t/10))^2));\nend");
-    ini.append("function f(x1,x2,x3,t)\n \
-               \txd	= 7*t;\n \
-               \txdd	= 7;\n \
-               \tyd	= sin(0.1*t);\n \
-               \tydd	= 0.1*cos(0.1*t);\n \
-               \txdiff	= ( xd - x1 + xdd );\n \
-               \tydiff	= ( yd - x2 + ydd );\n \
-               \tnorm 	= sqrt( (xdiff)^2 +(ydiff)^2 );\n \
-               \treturn(\n \
-               \t\t( norm*cos(x3) ),\n \
-               \t\t( norm*sin(x3) ),\n \
-               \t\t( ( cos(x3)*(ydiff)-sin(x3)*(xdiff) ) /norm )\n \
-               \t);\nend\n");
-    return ini;
-}
-QString Scenario::initg()
-{
-    QString ini;
-//    "function g(x1,x2,x3,t)\n\txd\t=7*t;\n\txdd\t=7;\n\tyd\t=sin(0.1*t);\n\tydd\t=0.1*cos(0.1*t);\n\txdiff=(xd-x1+xdd);\n\tydiff=(yd- x2 + ydd);\n\tden 	= sqrt(xdiff^2 + ydiff^2);\n\treturn(((x1-xd)^2+(x2-yd)^2-1),\n\t\t((cos(x3)-xdiff/den)^2+(sin(x3)-ydiff/den)^2 ) - 0.2 \n\t);\nend");
-//    ini.append("function g(x1,x2,x3,t)\nreturn((x1-7*t)^2+(x2-sin(t/10))^2-1;\n(cos(x3)-((7*t-x1+7)/sqrt((7*t-x1+7)^2+(sin(t/10)-x2+(1/10)*cos(t/10))^2))^2+(sin(x3)-((sin(t/10)-x2+(1/10)*cos(t/10))/sqrt((7*t-x1+7)^2+(sin(t/10)-x2+(1/10)*cos(t/10))^2))^2 -0.2);\nend");
-    ini.append("function g(x1,x2,x3,t)\n\
-        \txd	= 7*t;\n\
-        \txdd	= 7;\n\
-        \tyd	= sin(0.1*t);\n\
-        \tydd	= 0.1*cos(0.1*t);\n\
-        \txdiff	= ( xd - x1 + xdd );\n\
-        \tydiff	= ( yd - x2 + ydd );\n\
-        \tnorm 	= sqrt( (xdiff)^2 +(ydiff)^2 );\n\
-        \treturn(\n\
-        \t\t( (x1-xd)^2 + (x2-yd)^2 - 1) ,\n\
-        \t\t( ( cos(x3)- (xdiff/norm) )^2 + ( sin(x3) - (ydiff/norm) )^2 - 0.2)\n\
-        );\nend");
+/* **********************************************************************************************************/
+/*   SYSTEME SIMPLE 1   */
 
+QString Scenario::initf1()
+{
+    QString ini;
+    ini.append("function f(x1,x2,x3,t) \n \
+        return(\n \
+            -x1+t,\n \
+            -x2,\n \
+            -x3\n \
+        );\n \
+    end");
     return ini;
 }
-//QString Scenario::initc()
-//{
-//    QString ini;
-//    ini.append("");
-//    return ini;
-//}
+
+QString Scenario::initg1()
+{
+    QString ini;
+    ini.append("function f(x1,x2,x3,t) \n \
+        return(\n \
+            ((x1-t)^2+(x2)^2-1),\n \
+            ((cos(x3)-1)^2 +(sin(x3))^2 - 0.2) \n \
+        );\n \
+    end");
+    return ini;
+}
+
+
+/*********************************************************************************************************/
+/*   SYSTEME NON HOLONOME TOUT DROIT   */
+
+QString Scenario::initf2()
+{
+    QString ini;
+    ini.append("function f(x1,x2,x3,t) \n \
+               xd=7*t; \n \
+               xdd=7; \n \
+               yd=0; \n \
+               ydd=0; \n \
+               nx=(xd-x1+xdd);\n \
+               ny=(yd-x2+ydd);\n \
+               r=sqrt(nx^2+ny^2);\n \
+               ux=nx/r;\n \
+               uy=ny/r;\n \
+        return(\n \
+            r*cos(x3),\n \
+            r*sin(x3),\n \
+            10*(cos(x3)*uy-sin(x3)*ux)\n \
+        );\n \
+    end");
+    return ini;  //   et non pas cos(x3)*(ydiff)-sin(x3)*(xdiff) /norm
+}
+
+QString Scenario::initg2()
+{
+    QString ini;
+    ini.append("function g(x1,x2,x3,t)\n \
+               xd=7*t; \n \
+               xdd=7; \n \
+               yd=0; \n \
+               ydd=0; \n \
+               nx=(xd-x1+xdd);\n \
+               ny=(yd-x2+ydd);\n \
+               r=sqrt(nx^2+ny^2);\n \
+               ux=nx/r;\n \
+               uy=ny/r;\n \
+                  return(((x1-xd)^2+(x2-yd)^2-1),\n \
+                      ((cos(x3)-ux)^2+(sin(x3)-uy)^2 ) - 0.01 \n \
+                      );\nend");
+    return ini;
+}
+
+
+/* **********************************************************************************************************/
+/*   SYSTEME NON HOLONOME   */
+
+
+QString Scenario::initf3()
+{
+    QString ini;
+    ini.append("function f(x1,x2,x3,t) \n \
+        xd = 7*t; \n\
+        xdd = 7; \n \
+        yd = sin(0.1*t);\n \
+        ydd = 0.1*cos(0.1*t);\n \
+        xdiff = (xd-x1+xdd);\n \
+        ydiff = (yd-x2+ydd);\n \
+        norm =  ( sqrt((xdiff)^2 +(ydiff)^2) );\n \
+        return(\n \
+            norm*cos(x3),\n \
+            norm*sin(x3),\n \
+            10*(cos(x3)*(ydiff)-sin(x3)*(xdiff))/norm\n \
+        );\n \
+    end");
+    return ini;
+}
+
+QString Scenario::initg3()
+{
+    QString ini;
+    ini.append("function g(x1,x2,x3,t)\n \
+               xd=7*t; \n \
+               xdd=7; \n \
+               yd=sin(0.1*t); \n \
+               ydd=0.1*cos(0.1*t); \n \
+               xdiff=(xd-x1+xdd);\n \
+               ydiff=(yd-x2+ydd);\n \
+               den=sqrt(xdiff^2+ydiff^2);\n \
+               return(((x1-xd)^2+(x2-yd)^2-1),\n \
+                      ((cos(x3)-xdiff/den)^2+(sin(x3)-ydiff/den)^2 ) - 0.1 \n \
+                      );\nend");
+    return ini;
+}
+
