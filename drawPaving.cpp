@@ -44,14 +44,19 @@ drawPaving::drawPaving(QList<IntervalVector> &Sout, QList<IntervalVector> &Sprob
     }
 
     if((Sprob_t).isEmpty()!=1){
-
+        Function f("f.txt");
+        Function g("g.txt");
         int l=Sprob_t.size();
         for (int i =0;i<10;i++){
             int x1 = (rand()% l);
             IntervalVector x = Sprob_t.at(x1);
             if (x[3].contains(t))
             {
-            R.DrawRobot(x[0].mid(),x[1].mid(),x[2].mid(),0.05);
+                R.DrawRobot(x[0].mid(),x[1].mid(),x[2].mid(),0.05);
+                cout << "debug valeur de la boite" << x << endl;
+                cout << "evalutation de f " << f.eval_vector(x) << endl;
+                cout << "evalutation de g " << g.eval_vector(x) << endl;
+                cout << "====================================" << endl;
             }
         }
     }
